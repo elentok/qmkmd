@@ -53,12 +53,14 @@ code blocks:
 
    You can also enter QMK strings directly:
 
+   ````md
    ```aliases
    # Previous tab
    tabp = LGUI(S(KC_LBRC))
    # Next tab
    tabn = LGUI(S(KC_RBRC))
    ```
+   ````
 
 Instead of using QMK KC\_\* we use a shorter format (haven't decided on all of
 them yet).
