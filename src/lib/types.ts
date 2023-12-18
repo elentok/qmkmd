@@ -3,37 +3,21 @@ export interface Layout {
   layers: Layer[]
 }
 
-export type Structure = SingleStructure | SplitStructure
-
-export interface SplitStructure {
-  left: SingleStructure
-  right: SingleStructure
+export interface Structure {
+  /** The indexes for the separators */
+  separators: number[]
+  rows: StructureCell[][]
 }
 
-export interface SingleStructure {
-  rows: StructureRow[]
+export type StructureCell = { keyIndex: number } | "separator" | null
+
+export interface Layer {
+  rows: LayerCell[][]
 }
 
-export type StructureRow = Array<StructureCell | null>
+export type LayerCell = LayerCellMapping | "separator" | null
 
-export interface StructureCell {
-  keyIndex: number
-}
-
-export type Layer = SingleLayer | SplitLayer
-
-export interface SplitLayer {
-  left: SingleLayer
-  right: SingleLayer
-}
-
-export interface SingleLayer {
-  rows: LayerRow[]
-}
-
-export type LayerRow = Array<LayerCell | null>
-
-export interface LayerCell {
+export interface LayerCellMapping {
   mapping: string
 }
 

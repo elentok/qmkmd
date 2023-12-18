@@ -1,7 +1,7 @@
 import { assertEquals } from "https://deno.land/std@0.204.0/assert/assert_equals.ts"
 import { countColumns, isStructureLineValid, parseStructure } from "./structure.ts"
 
-Deno.test(function testParseStructure_SingleStructure() {
+Deno.test(function testParseStructure_NoSeparators() {
   assertEquals(
     parseStructure([
       "11 12 13 14 15",
@@ -10,6 +10,7 @@ Deno.test(function testParseStructure_SingleStructure() {
       "",
     ]),
     {
+      separators: [],
       rows: [
         [
           { keyIndex: 11 },
@@ -37,7 +38,7 @@ Deno.test(function testParseStructure_SingleStructure() {
   )
 })
 
-Deno.test(function testParseStructure_SplitStructure() {
+Deno.test(function testParseStructure_WithSeparators() {
   assertEquals(
     parseStructure([
       "11 12 13 || 16 17 18",
@@ -45,18 +46,13 @@ Deno.test(function testParseStructure_SplitStructure() {
       "",
     ]),
     {
-      left: {
-        rows: [
-          [{ keyIndex: 11 }, { keyIndex: 12 }, { keyIndex: 13 }],
-          [{ keyIndex: 19 }, null, { keyIndex: 1 }],
-        ],
-      },
-      right: {
-        rows: [
-          [{ keyIndex: 16 }, { keyIndex: 17 }, { keyIndex: 18 }],
-          [{ keyIndex: 2 }, { keyIndex: 3 }, null],
-        ],
-      },
+      separators: [3],
+      rows: [
+        [{ keyIndex: 11 }, { keyIndex: 12 }, { keyIndex: 13 }, "separator", { keyIndex: 16 }, { keyIndex: 17 }, {
+          keyIndex: 18,
+        }],
+        [{ keyIndex: 19 }, null, { keyIndex: 1 }, "separator", { keyIndex: 2 }, { keyIndex: 3 }, null],
+      ],
     },
   )
 })

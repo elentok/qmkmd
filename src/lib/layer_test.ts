@@ -2,7 +2,7 @@ import { assertEquals } from "https://deno.land/std@0.204.0/assert/assert_equals
 import { parseLayer, stringifyLayer } from "./layer.ts"
 import { parseStructure } from "./structure.ts"
 
-Deno.test(function testParseLayer_SingleLayer() {
+Deno.test(function testParseLayer_NoSeparators() {
   const structure = parseStructure([
     "10 11 12",
     "13    14",
@@ -23,7 +23,7 @@ Deno.test(function testParseLayer_SingleLayer() {
   })
 })
 
-Deno.test(function testParseLayer_SplitLayer() {
+Deno.test(function testParseLayer_WithSeparators() {
   const structure = parseStructure([
     "10 11 12 ||  1  2  3",
     "13    14 ||  4  5",
@@ -36,24 +36,17 @@ Deno.test(function testParseLayer_SplitLayer() {
     "x y || j",
   ]
   assertEquals(parseLayer("layer1", lines, structure), {
-    left: {
-      rows: [
-        [{ mapping: "a" }, { mapping: "b" }, { mapping: "c" }],
-        [{ mapping: "d" }, null, { mapping: "l(f)/f" }],
-        [{ mapping: "x" }, { mapping: "y" }, null],
-      ],
-    },
-    right: {
-      rows: [
-        [{ mapping: "e" }, { mapping: "f" }, { mapping: "rctl/g" }],
-        [{ mapping: "h" }, { mapping: "i" }, null],
-        [{ mapping: "j" }, null, null],
-      ],
-    },
+    rows: [
+      [{ mapping: "a" }, { mapping: "b" }, { mapping: "c" }, "separator", { mapping: "e" }, { mapping: "f" }, {
+        mapping: "rctl/g",
+      }],
+      [{ mapping: "d" }, null, { mapping: "l(f)/f" }, "separator", { mapping: "h" }, { mapping: "i" }, null],
+      [{ mapping: "x" }, { mapping: "y" }, null, "separator", { mapping: "j" }, null, null],
+    ],
   })
 })
 
-Deno.test(function testStringifyLayer_SingleLayer() {
+Deno.test(function testStringifyLayer_NoSeparators() {
   const structure = parseStructure([
     "10 11 12",
     "13    14",
@@ -73,7 +66,7 @@ Deno.test(function testStringifyLayer_SingleLayer() {
   ])
 })
 
-Deno.test(function testStringifyLayer_SplitLayer() {
+Deno.test(function testStringifyLayer_WithSeparators() {
   const structure = parseStructure([
     "10 11 12 ||  1  2  3",
     "13    14 ||  4  5",

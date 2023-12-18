@@ -1,23 +1,11 @@
-import { isNotCommentOrBlank, splitLinesForSplitKeyboard } from "./helpers.ts"
-import { LayoutError, SingleStructure, Structure, StructureCell } from "./types.ts"
+import { isNotCommentOrBlank } from "./helpers.ts"
+import { LayoutError, Structure, StructureCell } from "./types.ts"
 
 export function parseStructure(lines: string[]): Structure {
   const presentLines = lines.filter(isNotCommentOrBlank)
 
-  const isSplitStructure = presentLines.some((line) => line.includes("||"))
-  if (isSplitStructure) {
-    const { left, right } = splitLinesForSplitKeyboard(presentLines)
-    return {
-      left: parseSingleStructure(left),
-      right: parseSingleStructure(right),
-    }
-  } else {
-    return parseSingleStructure(presentLines)
-  }
-}
-
-function parseSingleStructure(presentLines: string[]): SingleStructure {
-  const s: SingleStructure = { rows: [] }
+  // const isSplitStructure = presentLines.some((line) => line.includes("||"))
+  const s: Structure = { rows: [], separators: [] }
 
   presentLines.forEach((line, index) => {
     if (!isStructureLineValid(line)) {
@@ -27,11 +15,13 @@ function parseSingleStructure(presentLines: string[]): SingleStructure {
   const columns = countColumns(presentLines)
 
   for (const line of presentLines) {
-    const row: Array<StructureCell | null> = []
+    const row: StructureCell[] = []
     for (let i = 0; i < columns; i++) {
       const value = line.substring(i * 3, i * 3 + 3).trim()
       if (value.length === 0) {
         row.push(null)
+      } else if (value === "||") {
+        row.push("separator")
       } else {
         row.push({ keyIndex: Number(value) })
       }
@@ -39,10 +29,26 @@ function parseSingleStructure(presentLines: string[]): SingleStructure {
     s.rows.push(row)
   }
 
+  // store separator indexes
+  s.rows[0].forEach((cell, cellIndex) => {
+    if (cell === "separator") {
+      s.separators.push(cellIndex)
+    }
+  })
+
+  // Make sure every row has the same separators
+  s.rows.forEach((row, rowIndex) => {
+    for (const separator of s.separators) {
+      if (row[separator] !== "separator") {
+        throw new LayoutError(`Mismatching structure separators`, rowIndex + 1)
+      }
+    }
+  })
+
   return s
 }
 
-const STRUCTURE_RE = /^([\d ][\d ] )*( \d|\d\d?)$/
+const STRUCTURE_RE = /^([\d ][\d ] |\|\| )*( \d|\d\d?)$/
 
 export function isStructureLineValid(line: string): boolean {
   return STRUCTURE_RE.test(line.trimEnd())

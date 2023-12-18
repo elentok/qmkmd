@@ -1,7 +1,7 @@
-import { stringifyLayer } from "./layer.ts"
-import { readLayout } from "./reader.ts"
+import { stringifyLayer } from "./lib/layer.ts"
+import { readLayout } from "./lib/reader.ts"
 
-const layout = readLayout("iris.md")
+const layout = readLayout("examples/iris.md")
 for (const layer of layout.layers) {
   console.info()
   console.info("Layer")
