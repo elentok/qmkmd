@@ -15,6 +15,7 @@ Deno.test(function testParseLayer_NoSeparators() {
     "x y",
   ]
   assertEquals(parseLayer("layer1", lines, structure), {
+    name: "layer1",
     rows: [
       [{ mapping: "a" }, { mapping: "b" }, { mapping: "c" }],
       [{ mapping: "d" }, null, { mapping: "l(f)/f" }],
@@ -36,6 +37,7 @@ Deno.test(function testParseLayer_WithSeparators() {
     "x y || j",
   ]
   assertEquals(parseLayer("layer1", lines, structure), {
+    name: "layer1",
     rows: [
       [{ mapping: "a" }, { mapping: "b" }, { mapping: "c" }, "separator", { mapping: "e" }, { mapping: "f" }, {
         mapping: "rctl/g",

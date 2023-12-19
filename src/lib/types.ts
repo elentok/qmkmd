@@ -17,6 +17,7 @@ export interface Structure {
 export type StructureCell = { keyIndex: number } | "separator" | null
 
 export interface Layer {
+  name: string
   rows: LayerCell[][]
 }
 

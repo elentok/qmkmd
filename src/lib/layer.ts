@@ -1,5 +1,5 @@
 import { isNotCommentOrBlank, maxLayerColWidth } from "./helpers.ts"
-import { Layer, LayerCell, LayoutError, Structure } from "./types.ts"
+import { Layer, LayoutError, Structure } from "./types.ts"
 
 export function parseLayer(name: string, lines: string[], structure: Structure): Layer {
   const presentLines = lines.filter(isNotCommentOrBlank)
@@ -35,7 +35,7 @@ export function parseLayer(name: string, lines: string[], structure: Structure):
     })
   })
 
-  return { rows: layerRows }
+  return { name, rows: layerRows }
 }
 
 export function stringifyLayer(layer: Layer, structure: Structure): string[] {
@@ -61,4 +61,30 @@ export function stringifyLayer(layer: Layer, structure: Structure): string[] {
   }
 
   return lines
+}
+
+export function calcColumnWidths(layers: Layer[]): number[] {
+  const maxColumnWidths = calcColumnWidthsForLayer(layers[0])
+  for (let i = 1; i < layers.length; i++) {
+    const columnWidths = calcColumnWidthsForLayer(layers[i])
+    for (let col = 0; col < columnWidths.length; col++) {
+      if (columnWidths[col] > maxColumnWidths[col]) {
+        maxColumnWidths[col] = columnWidths[col]
+      }
+    }
+  }
+  return maxColumnWidths
+}
+
+function calcColumnWidthsForLayer(layer: Layer): number[] {
+  const maxColumnWidths = Array.from({ length: layer.rows[0].length }, () => 0)
+  for (const row of layer.rows) {
+    row.forEach((cell, cellIndex) => {
+      if (cell != null && cell !== "separator" && cell.mapping.length > maxColumnWidths[cellIndex]) {
+        maxColumnWidths[cellIndex] = cell.mapping.length
+      }
+    })
+  }
+
+  return maxColumnWidths
 }
