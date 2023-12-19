@@ -1,6 +1,11 @@
 export interface Layout {
   structure: Structure
   layers: Layer[]
+  options: Options
+}
+
+export interface Options {
+  layoutFn: string
 }
 
 export interface Structure {
