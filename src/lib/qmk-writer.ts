@@ -21,7 +21,7 @@ export function writeQmkCode(layout: Layout): string[] {
   const columnWidths = calcColumnWidths(expandedLayers)
 
   for (const layer of expandedLayers) {
-    lines.push(`  [${layer.name.toUpperCase()}] = ${o.layoutFn}(`)
+    lines.push(`  [${layerQmkName(layer.name)}] = ${o.layoutFn}(`)
 
     for (let rowIndex = 0; rowIndex < s.rows.length; rowIndex++) {
       const row = s.rows[rowIndex]
