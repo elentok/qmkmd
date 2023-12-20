@@ -1,4 +1,5 @@
-import { Layer, LayoutError } from "./types.ts"
+import { layerQmkName } from "./layer.ts"
+import { Layer, Layout, LayoutError } from "./types.ts"
 
 const MODS = ["gui", "ctl", "alt", "sft"]
 const KEYS = [
@@ -75,23 +76,40 @@ MODS.forEach((mod) => {
   keycodes.set(`r${mod}`, `KC_R${mod.toUpperCase()}`)
 })
 
-export function expandKey(key: string): string | undefined {
+export function expandKey(key: string, layout: Layout): string | undefined {
   if (keycodes.has(key)) {
     return keycodes.get(key)
   }
 
   if (key.includes("/")) {
     const [hold, tap] = key.split("/")
-    const qmkTap = expandKey(tap)
-    if (qmkTap == null || !isValidMod(hold)) {
+    const qmkTap = expandKey(tap, layout)
+    if (qmkTap == null) {
       return
     }
+    if (isValidMod(hold)) {
+      return `${hold.toUpperCase()}_T(${qmkTap})`
+    }
 
-    return `${hold.toUpperCase()}_T(${qmkTap})`
+    const match = /^(.*)\((.*)\)$/.exec(hold)
+    if (match !== null) {
+      const func = match[1]
+      const args = match[2]
+
+      if (func === "l") {
+        const layerName = args
+        if (layout.layers.find((l) => l.name === layerName)) {
+          return `LT(${layerQmkName(layerName)}, ${qmkTap})`
+        }
+        throw new Error(`Mapping ${key} refers to a non-existing layer '${layerName}'`)
+      }
+
+      throw new Error(`Mapping '${key}' uses an invalid function '${func}'`)
+    }
   }
 }
 
-export function expandLayer(layer: Layer): Layer {
+export function expandLayer(layer: Layer, layout: Layout): Layer {
   return {
     ...layer,
     rows: layer.rows.map((row, rowIndex) => {
@@ -99,13 +117,21 @@ export function expandLayer(layer: Layer): Layer {
         if (cell == null || cell === "separator") {
           return cell
         } else {
-          const mapping = expandKey(cell.mapping)
+          let mapping: string | undefined
+          try {
+            mapping = expandKey(cell.mapping, layout)
+          } catch (e) {
+            throw new LayoutError(
+              `Layer ${layer.name}: row ${rowIndex + 1}, column ${cellIndex + 1}: ${e}`,
+              rowIndex + 1,
+            )
+          }
           if (mapping == null) {
             if (/[\/(+]/.test(cell.mapping)) {
               return { mapping: "???" }
             }
             throw new LayoutError(
-              `Unknown key '${cell.mapping}' at row ${rowIndex + 1}, column ${cellIndex + 1}`,
+              `Layer ${layer.name}: unknown key '${cell.mapping}' at row ${rowIndex + 1}, column ${cellIndex + 1}`,
               rowIndex + 1,
             )
           }

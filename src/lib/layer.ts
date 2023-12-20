@@ -88,3 +88,7 @@ function calcColumnWidthsForLayer(layer: Layer): number[] {
 
   return maxColumnWidths
 }
+
+export function layerQmkName(name: string): string {
+  return `L${name.toUpperCase()}`
+}
