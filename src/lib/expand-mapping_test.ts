@@ -11,6 +11,10 @@ const layout: Layout = {
       name: "f",
       rows: [],
     },
+    {
+      name: "base",
+      rows: [],
+    },
   ],
 }
 
@@ -49,6 +53,19 @@ Deno.test(function testExpandMapping_OneShotMod_ValidMod() {
 Deno.test(function testExpandMapping_OneShotMod_InvalidMod() {
   assertThrows(() => {
     expandMapping("osm(invalid)", layout)
+  })
+})
+
+Deno.test(function testExpandMapping_LayerCommands() {
+  assertEquals(expandMapping("df(base)", layout), "DF(LBASE)")
+  assertEquals(expandMapping("mo(base)", layout), "MO(LBASE)")
+  assertEquals(expandMapping("osl(base)", layout), "OSL(LBASE)")
+  assertEquals(expandMapping("tg(base)", layout), "TG(LBASE)")
+  assertEquals(expandMapping("to(base)", layout), "TO(LBASE)")
+  assertEquals(expandMapping("tt(base)", layout), "TT(LBASE)")
+
+  assertThrows(() => {
+    expandMapping("to(invalid)", layout)
   })
 })
 

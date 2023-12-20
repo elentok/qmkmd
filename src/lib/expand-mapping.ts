@@ -70,6 +70,7 @@ const simpleMappings = new Map<string, string>(
     ["^", "KC_CIRC"],
     ["&", "KC_AMPR"],
     ["*", "KC_ASTR"],
+    ["boot", "QK_BOOT"],
     ["__", "_______"],
   ],
 )
@@ -85,7 +86,7 @@ MODS.forEach((mod) => {
 
 export function expandMapping(mapping: string, layout: Layout): string | undefined {
   return expandSimpleMapping(mapping) || expandModOrLayerTap(mapping, layout) || expandOneShotMod(mapping) ||
-    expandCombo(mapping)
+    expandCombo(mapping) || expandLayerCommand(mapping, layout)
 }
 
 function expandSimpleMapping(mapping: string): string | undefined {
@@ -133,6 +134,26 @@ function expandOneShotMod(mapping: string): string | undefined {
   return `OSM(MOD_${mod.toUpperCase()})`
 }
 
+const LAYER_COMMANDS = ["df", "mo", "osl", "tg", "to", "tt"]
+
+function expandLayerCommand(mapping: string, layout: Layout): string | undefined {
+  const match = /^(.*)\((.*)\)$/.exec(mapping)
+  if (match == null) return
+
+  const command = match[1]
+  const layerName = match[2]
+
+  if (!LAYER_COMMANDS.includes(command)) {
+    throw new Error(`Invalid layer command '${command}'`)
+  }
+
+  if (!hasLayer(layout, layerName)) {
+    throw new Error(`Layer command '${mapping}' refers to non-existing layer '${layerName}'`)
+  }
+
+  return `${command.toUpperCase()}(${layerQmkName(layerName)})`
+}
+
 function expandCombo(mapping: string): string | undefined {
   if (!mapping.includes("+")) return
 
@@ -155,4 +176,8 @@ function wrapInParens(parts: string[], index = 0): string {
   const isLastPart = index >= (parts.length - 1)
   const next = isLastPart ? "" : `(${wrapInParens(parts, index + 1)})`
   return `${parts[index]}${next}`
+}
+
+function hasLayer(layout: Layout, name: string): boolean {
+  return layout.layers.find((l) => l.name === name) != null
 }
