@@ -92,7 +92,7 @@ export function expandKey(key: string, layout: Layout): string | undefined {
     }
 
     const match = /^(.*)\((.*)\)$/.exec(hold)
-    if (match !== null) {
+    if (match != null) {
       const func = match[1]
       const args = match[2]
 
@@ -106,6 +106,16 @@ export function expandKey(key: string, layout: Layout): string | undefined {
 
       throw new Error(`Mapping '${key}' uses an invalid function '${func}'`)
     }
+  }
+
+  const oneShotModMatch = /^os\((.*)\)$/.exec(key)
+  if (oneShotModMatch != null) {
+    const mod = oneShotModMatch[1]
+    if (!isValidMod(mod)) {
+      throw new Error(`OneShotMod '${key}' has invalid mod '${mod}'`)
+    }
+
+    return `OSM(MOD_${mod.toUpperCase()})`
   }
 }
 

@@ -38,3 +38,16 @@ Deno.test(function testExpandKey_LayerTap_NonExistingLayer() {
     expandKey("l(badlayer)/f", layout)
   })
 })
+
+Deno.test(function testExpandKey_OneShotMod_ValidMod() {
+  assertEquals(
+    expandKey("os(lsft)", layout),
+    "OSM(MOD_LSFT)",
+  )
+})
+
+Deno.test(function testExpandKey_OneShotMod_InvalidMod() {
+  assertThrows(() => {
+    expandKey("os(invalid)", layout)
+  })
+})
