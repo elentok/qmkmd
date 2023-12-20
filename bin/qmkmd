@@ -2,4 +2,6 @@
 
 set -euo pipefail
 
-deno run ../src/build.ts
+ROOT="$(dirname "${BASH_SOURCE[0]-$0}")/.."
+
+deno run --allow-read --allow-write "$ROOT/src/cli.ts" "$@"
