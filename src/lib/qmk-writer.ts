@@ -12,7 +12,7 @@ export function writeQmkCode(layout: Layout): string[] {
       const qmkName = layerQmkName(layer.name)
       return (index === 0) ? `  ${qmkName} = 0,` : `  ${qmkName},`
     }),
-    "},",
+    "};",
     "",
     "const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {",
   ]
@@ -50,6 +50,6 @@ export function writeQmkCode(layout: Layout): string[] {
     lines.push("  ),")
   }
 
-  lines.push("}")
+  lines.push("};")
   return lines
 }
