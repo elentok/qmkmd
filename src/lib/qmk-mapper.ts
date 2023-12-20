@@ -1,6 +1,6 @@
 import { Layer, LayoutError } from "./types.ts"
 
-const MODS = ["gui", "ctl", "alt", "sft"] as const
+const MODS = ["gui", "ctl", "alt", "sft"]
 const KEYS = [
   ..."abcdefghijklmnopqrstuvwxyz0123456789".split(""),
   "esc",
@@ -13,7 +13,15 @@ const KEYS = [
   "home",
   "end",
   "spc",
-] as const
+]
+
+function isValidMod(text: string): boolean {
+  if (text.charAt(0) !== "l" && text.charAt(0) !== "r") {
+    return false
+  }
+
+  return MODS.includes(text.substring(1))
+}
 
 const keycodes = new Map<string, string>(
   [
@@ -68,7 +76,19 @@ MODS.forEach((mod) => {
 })
 
 export function expandKey(key: string): string | undefined {
-  return keycodes.get(key)
+  if (keycodes.has(key)) {
+    return keycodes.get(key)
+  }
+
+  if (key.includes("/")) {
+    const [hold, tap] = key.split("/")
+    const qmkTap = expandKey(tap)
+    if (qmkTap == null || !isValidMod(hold)) {
+      return
+    }
+
+    return `${hold.toUpperCase()}_T(${qmkTap})`
+  }
 }
 
 export function expandLayer(layer: Layer): Layer {
