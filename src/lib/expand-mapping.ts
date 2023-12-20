@@ -1,5 +1,5 @@
 import { layerQmkName } from "./layer.ts"
-import { Layer, Layout, LayoutError } from "./types.ts"
+import { Layout } from "./types.ts"
 
 const MODS = ["gui", "ctl", "alt", "sft"]
 const KEYS = [
@@ -119,37 +119,4 @@ function expandOneShotMod(mapping: string): string | undefined {
   }
 
   return `OSM(MOD_${mod.toUpperCase()})`
-}
-
-export function expandLayer(layer: Layer, layout: Layout): Layer {
-  return {
-    ...layer,
-    rows: layer.rows.map((row, rowIndex) => {
-      return row.map((cell, cellIndex) => {
-        if (cell == null || cell === "separator") {
-          return cell
-        } else {
-          let mapping: string | undefined
-          try {
-            mapping = expandMapping(cell.mapping, layout)
-          } catch (e) {
-            throw new LayoutError(
-              `Layer ${layer.name}: row ${rowIndex + 1}, column ${cellIndex + 1}: ${e}`,
-              rowIndex + 1,
-            )
-          }
-          if (mapping == null) {
-            if (/[\/(+]/.test(cell.mapping)) {
-              return { mapping: "???" }
-            }
-            throw new LayoutError(
-              `Layer ${layer.name}: unknown key '${cell.mapping}' at row ${rowIndex + 1}, column ${cellIndex + 1}`,
-              rowIndex + 1,
-            )
-          }
-          return { mapping }
-        }
-      })
-    }),
-  }
 }
