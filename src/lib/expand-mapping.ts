@@ -1,8 +1,8 @@
 import { layerQmkName } from "./layer.ts"
 import { Layout } from "./types.ts"
 
-const MODS = ["gui", "ctl", "alt", "sft"]
-const KEYS = [
+const mods = ["gui", "ctl", "alt", "sft"]
+const keys = [
   ..."abcdefghijklmnopqrstuvwxyz0123456789".split(""),
   "esc",
   "tab",
@@ -14,13 +14,19 @@ const KEYS = [
   "home",
   "end",
   "spc",
+  "wbak", // Web Back
+  "wfwd", // Web Forward
 ]
 
-const SHORT_MODS = MODS.map((m) => m.charAt(0))
+for (let i = 1; i < 13; i++) {
+  keys.push(`f${i}`)
+}
+
+const shortMods = mods.map((m) => m.charAt(0))
 
 function expandShortMod(shortMod: string): string | undefined {
-  const index = SHORT_MODS.indexOf(shortMod)
-  return MODS[index]
+  const index = shortMods.indexOf(shortMod)
+  return mods[index]
 }
 
 function isValidMod(text: string): boolean {
@@ -28,7 +34,7 @@ function isValidMod(text: string): boolean {
     return false
   }
 
-  return MODS.includes(text.substring(1))
+  return mods.includes(text.substring(1))
 }
 
 const simpleMappings = new Map<string, string>(
@@ -71,15 +77,18 @@ const simpleMappings = new Map<string, string>(
     ["&", "KC_AMPR"],
     ["*", "KC_ASTR"],
     ["boot", "QK_BOOT"],
+    ["play", "KC_MPLY"],
+    ["vol+", "KC_VOLU"],
+    ["vol-", "KC_VOLD"],
     ["__", "_______"],
   ],
 )
 
-KEYS.forEach((key) => {
+keys.forEach((key) => {
   simpleMappings.set(key, `KC_${key.toUpperCase()}`)
 })
 
-MODS.forEach((mod) => {
+mods.forEach((mod) => {
   simpleMappings.set(`l${mod}`, `KC_L${mod.toUpperCase()}`)
   simpleMappings.set(`r${mod}`, `KC_R${mod.toUpperCase()}`)
 })
