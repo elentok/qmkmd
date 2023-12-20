@@ -81,42 +81,48 @@ export function expandKey(key: string, layout: Layout): string | undefined {
     return keycodes.get(key)
   }
 
-  if (key.includes("/")) {
-    const [hold, tap] = key.split("/")
-    const qmkTap = expandKey(tap, layout)
-    if (qmkTap == null) {
-      return
-    }
-    if (isValidMod(hold)) {
-      return `${hold.toUpperCase()}_T(${qmkTap})`
-    }
+  return expandModOrLayerTap(key, layout) || expandOneShotMod(key, layout)
+}
 
-    const match = /^(.*)\((.*)\)$/.exec(hold)
-    if (match != null) {
-      const func = match[1]
-      const args = match[2]
+function expandModOrLayerTap(key: string, layout: Layout): string | undefined {
+  if (!key.includes("/")) return
 
-      if (func === "l") {
-        const layerName = args
-        if (layout.layers.find((l) => l.name === layerName)) {
-          return `LT(${layerQmkName(layerName)}, ${qmkTap})`
-        }
-        throw new Error(`Mapping ${key} refers to a non-existing layer '${layerName}'`)
+  const [hold, tap] = key.split("/")
+  const qmkTap = expandKey(tap, layout)
+  if (qmkTap == null) {
+    return
+  }
+  if (isValidMod(hold)) {
+    return `${hold.toUpperCase()}_T(${qmkTap})`
+  }
+
+  const match = /^(.*)\((.*)\)$/.exec(hold)
+  if (match != null) {
+    const func = match[1]
+    const args = match[2]
+
+    if (func === "l") {
+      const layerName = args
+      if (layout.layers.find((l) => l.name === layerName)) {
+        return `LT(${layerQmkName(layerName)}, ${qmkTap})`
       }
-
-      throw new Error(`Mapping '${key}' uses an invalid function '${func}'`)
+      throw new Error(`Mapping ${key} refers to a non-existing layer '${layerName}'`)
     }
-  }
 
+    throw new Error(`Mapping '${key}' uses an invalid function '${func}'`)
+  }
+}
+
+function expandOneShotMod(key: string, layout: Layout): string | undefined {
   const oneShotModMatch = /^os\((.*)\)$/.exec(key)
-  if (oneShotModMatch != null) {
-    const mod = oneShotModMatch[1]
-    if (!isValidMod(mod)) {
-      throw new Error(`OneShotMod '${key}' has invalid mod '${mod}'`)
-    }
+  if (oneShotModMatch == null) return
 
-    return `OSM(MOD_${mod.toUpperCase()})`
+  const mod = oneShotModMatch[1]
+  if (!isValidMod(mod)) {
+    throw new Error(`OneShotMod '${key}' has invalid mod '${mod}'`)
   }
+
+  return `OSM(MOD_${mod.toUpperCase()})`
 }
 
 export function expandLayer(layer: Layer, layout: Layout): Layer {
