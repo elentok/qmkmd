@@ -41,14 +41,14 @@ Deno.test(function testExpandMapping_LayerTap_NonExistingLayer() {
 
 Deno.test(function testExpandMapping_OneShotMod_ValidMod() {
   assertEquals(
-    expandMapping("os(lsft)", layout),
+    expandMapping("osm(lsft)", layout),
     "OSM(MOD_LSFT)",
   )
 })
 
 Deno.test(function testExpandMapping_OneShotMod_InvalidMod() {
   assertThrows(() => {
-    expandMapping("os(invalid)", layout)
+    expandMapping("osm(invalid)", layout)
   })
 })
 

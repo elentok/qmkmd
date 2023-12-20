@@ -122,7 +122,7 @@ function expandModOrLayerTap(mapping: string, layout: Layout): string | undefine
 }
 
 function expandOneShotMod(mapping: string): string | undefined {
-  const oneShotModMatch = /^os\((.*)\)$/.exec(mapping)
+  const oneShotModMatch = /^osm\((.*)\)$/.exec(mapping)
   if (oneShotModMatch == null) return
 
   const mod = oneShotModMatch[1]
