@@ -6,7 +6,7 @@ export function parseLayer(name: string, lines: string[], structure: Structure):
 
   if (presentLines.length !== structure.rows.length) {
     throw new LayoutError(
-      `Layer ${name} has ${presentLines.length} rows while the structure has ${structure.rows.length} rows`,
+      `Layer '${name}' has ${presentLines.length} rows while the structure has ${structure.rows.length} rows`,
     )
   }
 

@@ -4,12 +4,11 @@ import { LayoutError, Structure, StructureCell } from "./types.ts"
 export function parseStructure(lines: string[]): Structure {
   const presentLines = lines.filter(isNotCommentOrBlank)
 
-  // const isSplitStructure = presentLines.some((line) => line.includes("||"))
   const s: Structure = { rows: [], separators: [] }
 
   presentLines.forEach((line, index) => {
     if (!isStructureLineValid(line)) {
-      throw new LayoutError(`Invalid structure line: '${line}'`, index + 1)
+      throw new LayoutError(`Invalid structure line #${index + 1}: '${line}'`)
     }
   })
   const columns = countColumns(presentLines)
@@ -40,7 +39,7 @@ export function parseStructure(lines: string[]): Structure {
   s.rows.forEach((row, rowIndex) => {
     for (const separator of s.separators) {
       if (row[separator] !== "separator") {
-        throw new LayoutError(`Mismatching structure separators`, rowIndex + 1)
+        throw new LayoutError(`Mismatching structure separators at row #${rowIndex + 1}`)
       }
     }
   })

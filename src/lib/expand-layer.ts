@@ -1,5 +1,5 @@
 import { expandMapping } from "./expand-mapping.ts"
-import { Layer, Layout, LayoutError } from "./types.ts"
+import { Layer, LayerError, Layout, LayoutError } from "./types.ts"
 
 export function expandLayer(layer: Layer, layout: Layout): Layer {
   return {
@@ -13,19 +13,13 @@ export function expandLayer(layer: Layer, layout: Layout): Layer {
           try {
             mapping = expandMapping(cell.mapping, layout)
           } catch (e) {
-            throw new LayoutError(
-              `Layer ${layer.name}: row ${rowIndex + 1}, column ${cellIndex + 1}: ${e}`,
-              rowIndex + 1,
-            )
+            throw new LayerError(e, layer, rowIndex + 1, cellIndex + 1)
           }
           if (mapping == null) {
             if (/[\/(+]/.test(cell.mapping)) {
               return { mapping: "???" }
             }
-            throw new LayoutError(
-              `Layer ${layer.name}: unknown key '${cell.mapping}' at row ${rowIndex + 1}, column ${cellIndex + 1}`,
-              rowIndex + 1,
-            )
+            throw new LayerError(`Invalid mapping '${cell.mapping}`, layer, rowIndex + 1, cellIndex + 1)
           }
           return { mapping }
         }
