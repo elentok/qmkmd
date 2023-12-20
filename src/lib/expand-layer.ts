@@ -16,9 +16,6 @@ export function expandLayer(layer: Layer, layout: Layout): Layer {
             throw new LayerError(e, layer, rowIndex + 1, cellIndex + 1)
           }
           if (mapping == null) {
-            if (/[\/(+]/.test(cell.mapping)) {
-              return { mapping: "???" }
-            }
             throw new LayerError(`Invalid mapping '${cell.mapping}`, layer, rowIndex + 1, cellIndex + 1)
           }
           return { mapping }
