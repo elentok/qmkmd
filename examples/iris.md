@@ -4,6 +4,10 @@ This is an example for the Iris keyboard.
 
 - The core layout is 2x(3x5 + 3) = 36
 
+```options
+layoutFn = LAYOUT
+```
+
 ## Keyboard Structure
 
 ```structure

@@ -32,11 +32,11 @@ code blocks:
 
    ````md
    ```layer:base
-   esc  1      2      3       4      5             ||          6    7      8      9      0      bs
-   tab  q      w      e       r      t             ||          y    u      i      o      p      \
-   lgui lctl/a lalt/s lgui/d  l(f)/f g             ||          h    l(j)/j rgui/k ralt/l rctl/; '
-   lsft z      x      c       l(v)/v b        home || end      n    m      ,      .      /      rsft
-                              lctl   os(lgui) spc  || os(rsft) ent  bs
+   esc  1      2      3       4      5             ||           6    7      8      9      0      bs
+   tab  q      w      e       r      t             ||           y    u      i      o      p      \
+   lgui lctl/a lalt/s lgui/d  l(f)/f g             ||           h    l(j)/j rgui/k ralt/l rctl/; '
+   lsft z      x      c       l(v)/v b        home || end       n    m      ,      .      /      rsft
+                              lctl   osm(lgui) spc || osm(rsft) ent  bs
    ```
    ````
 
@@ -64,3 +64,45 @@ code blocks:
 
 Instead of using QMK KC\_\* we use a shorter format (haven't decided on all of
 them yet).
+
+## Installation
+
+For now the easiest way to install it is to clone the repo and add the `bin`
+subdirectory to your path, e.g.
+
+```sh
+git clone https://github.com/elentok/qmkmd ~/.qmkmd
+echo 'PATH=$PATH:~/.qmkmd' >> ~/.zshrc
+```
+
+(change to `.bashrc` if you're using bash)
+
+## Usage
+
+To build a markdown file into a header file you can import in keymap.c run:
+
+```sh
+qmkmd build layout.md
+```
+
+It will create `generated-layout.h` which you can then import into your keymap.c
+using:
+
+```c
+#include "generated-layout.h"
+```
+
+If your keyboard layout uses another function other than `LAYOUT` you can
+override it in the `options` block:
+
+````md
+```options
+layoutFn = MY_LAYOUT
+```
+````
+
+## TODO
+
+- [ ] Aliases
+- [ ] Linter
+- [ ] Formatter
