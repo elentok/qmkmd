@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.204.0/assert/assert_equals.ts"
 import { assertThrows } from "https://deno.land/std@0.204.0/assert/assert_throws.ts"
-import { expandKey } from "./qmk-mapper.ts"
+import { expandMapping } from "./qmk-mapper.ts"
 import { Layout } from "./types.ts"
 
 const layout: Layout = {
@@ -14,40 +14,40 @@ const layout: Layout = {
   ],
 }
 
-Deno.test(function testExpandKey_SimpleKey() {
-  assertEquals(expandKey("c", layout), "KC_C")
-  assertEquals(expandKey("esc", layout), "KC_ESC")
-  assertEquals(expandKey(",", layout), "KC_COMM")
-  assertEquals(expandKey("lsft", layout), "KC_LSFT")
+Deno.test(function testExpandMapping_SimpleKey() {
+  assertEquals(expandMapping("c", layout), "KC_C")
+  assertEquals(expandMapping("esc", layout), "KC_ESC")
+  assertEquals(expandMapping(",", layout), "KC_COMM")
+  assertEquals(expandMapping("lsft", layout), "KC_LSFT")
 })
 
-Deno.test(function testExpandKey_ModTap() {
-  assertEquals(expandKey("lsft/f", layout), "LSFT_T(KC_F)")
-  assertEquals(expandKey("rgui/,", layout), "RGUI_T(KC_COMM)")
+Deno.test(function testExpandMapping_ModTap() {
+  assertEquals(expandMapping("lsft/f", layout), "LSFT_T(KC_F)")
+  assertEquals(expandMapping("rgui/,", layout), "RGUI_T(KC_COMM)")
 })
 
-Deno.test(function testExpandKey_LayerTap_ValidLayer() {
+Deno.test(function testExpandMapping_LayerTap_ValidLayer() {
   assertEquals(
-    expandKey("l(f)/f", layout),
+    expandMapping("l(f)/f", layout),
     "LT(LF, KC_F)",
   )
 })
 
-Deno.test(function testExpandKey_LayerTap_NonExistingLayer() {
+Deno.test(function testExpandMapping_LayerTap_NonExistingLayer() {
   assertThrows(() => {
-    expandKey("l(badlayer)/f", layout)
+    expandMapping("l(badlayer)/f", layout)
   })
 })
 
-Deno.test(function testExpandKey_OneShotMod_ValidMod() {
+Deno.test(function testExpandMapping_OneShotMod_ValidMod() {
   assertEquals(
-    expandKey("os(lsft)", layout),
+    expandMapping("os(lsft)", layout),
     "OSM(MOD_LSFT)",
   )
 })
 
-Deno.test(function testExpandKey_OneShotMod_InvalidMod() {
+Deno.test(function testExpandMapping_OneShotMod_InvalidMod() {
   assertThrows(() => {
-    expandKey("os(invalid)", layout)
+    expandMapping("os(invalid)", layout)
   })
 })

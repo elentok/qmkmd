@@ -24,7 +24,7 @@ function isValidMod(text: string): boolean {
   return MODS.includes(text.substring(1))
 }
 
-const keycodes = new Map<string, string>(
+const simpleMappings = new Map<string, string>(
   [
     ["'", "KC_QUO"],
     ['"', "KC_DQUO"],
@@ -68,27 +68,23 @@ const keycodes = new Map<string, string>(
 )
 
 KEYS.forEach((key) => {
-  keycodes.set(key, `KC_${key.toUpperCase()}`)
+  simpleMappings.set(key, `KC_${key.toUpperCase()}`)
 })
 
 MODS.forEach((mod) => {
-  keycodes.set(`l${mod}`, `KC_L${mod.toUpperCase()}`)
-  keycodes.set(`r${mod}`, `KC_R${mod.toUpperCase()}`)
+  simpleMappings.set(`l${mod}`, `KC_L${mod.toUpperCase()}`)
+  simpleMappings.set(`r${mod}`, `KC_R${mod.toUpperCase()}`)
 })
 
-export function expandKey(key: string, layout: Layout): string | undefined {
-  if (keycodes.has(key)) {
-    return keycodes.get(key)
-  }
-
-  return expandModOrLayerTap(key, layout) || expandOneShotMod(key, layout)
+export function expandMapping(mapping: string, layout: Layout): string | undefined {
+  return simpleMappings.get(mapping) || expandModOrLayerTap(mapping, layout) || expandOneShotMod(mapping)
 }
 
-function expandModOrLayerTap(key: string, layout: Layout): string | undefined {
-  if (!key.includes("/")) return
+function expandModOrLayerTap(mapping: string, layout: Layout): string | undefined {
+  if (!mapping.includes("/")) return
 
-  const [hold, tap] = key.split("/")
-  const qmkTap = expandKey(tap, layout)
+  const [hold, tap] = mapping.split("/")
+  const qmkTap = expandMapping(tap, layout)
   if (qmkTap == null) {
     return
   }
@@ -106,20 +102,20 @@ function expandModOrLayerTap(key: string, layout: Layout): string | undefined {
       if (layout.layers.find((l) => l.name === layerName)) {
         return `LT(${layerQmkName(layerName)}, ${qmkTap})`
       }
-      throw new Error(`Mapping ${key} refers to a non-existing layer '${layerName}'`)
+      throw new Error(`Mapping ${mapping} refers to a non-existing layer '${layerName}'`)
     }
 
-    throw new Error(`Mapping '${key}' uses an invalid function '${func}'`)
+    throw new Error(`Mapping '${mapping}' uses an invalid function '${func}'`)
   }
 }
 
-function expandOneShotMod(key: string, layout: Layout): string | undefined {
-  const oneShotModMatch = /^os\((.*)\)$/.exec(key)
+function expandOneShotMod(mapping: string): string | undefined {
+  const oneShotModMatch = /^os\((.*)\)$/.exec(mapping)
   if (oneShotModMatch == null) return
 
   const mod = oneShotModMatch[1]
   if (!isValidMod(mod)) {
-    throw new Error(`OneShotMod '${key}' has invalid mod '${mod}'`)
+    throw new Error(`OneShotMod '${mapping}' has invalid mod '${mod}'`)
   }
 
   return `OSM(MOD_${mod.toUpperCase()})`
@@ -135,7 +131,7 @@ export function expandLayer(layer: Layer, layout: Layout): Layer {
         } else {
           let mapping: string | undefined
           try {
-            mapping = expandKey(cell.mapping, layout)
+            mapping = expandMapping(cell.mapping, layout)
           } catch (e) {
             throw new LayoutError(
               `Layer ${layer.name}: row ${rowIndex + 1}, column ${cellIndex + 1}: ${e}`,
