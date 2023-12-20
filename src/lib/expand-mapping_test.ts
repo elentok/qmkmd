@@ -51,3 +51,8 @@ Deno.test(function testExpandMapping_OneShotMod_InvalidMod() {
     expandMapping("os(invalid)", layout)
   })
 })
+
+Deno.test(function testExpandMapping_Combo() {
+  assertEquals(expandMapping("s+tab", layout), "LSFT(KC_TAB)")
+  assertEquals(expandMapping("s+g+tab", layout), "LSFT(LGUI(KC_TAB))")
+})

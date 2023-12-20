@@ -16,6 +16,13 @@ const KEYS = [
   "spc",
 ]
 
+const SHORT_MODS = MODS.map((m) => m.charAt(0))
+
+function expandShortMod(shortMod: string): string | undefined {
+  const index = SHORT_MODS.indexOf(shortMod)
+  return MODS[index]
+}
+
 function isValidMod(text: string): boolean {
   if (text.charAt(0) !== "l" && text.charAt(0) !== "r") {
     return false
@@ -77,7 +84,12 @@ MODS.forEach((mod) => {
 })
 
 export function expandMapping(mapping: string, layout: Layout): string | undefined {
-  return simpleMappings.get(mapping) || expandModOrLayerTap(mapping, layout) || expandOneShotMod(mapping)
+  return expandSimpleMapping(mapping) || expandModOrLayerTap(mapping, layout) || expandOneShotMod(mapping) ||
+    expandCombo(mapping)
+}
+
+function expandSimpleMapping(mapping: string): string | undefined {
+  return simpleMappings.get(mapping)
 }
 
 function expandModOrLayerTap(mapping: string, layout: Layout): string | undefined {
@@ -119,4 +131,28 @@ function expandOneShotMod(mapping: string): string | undefined {
   }
 
   return `OSM(MOD_${mod.toUpperCase()})`
+}
+
+function expandCombo(mapping: string): string | undefined {
+  if (!mapping.includes("+")) return
+
+  const parts = mapping.split("+").map((part) => {
+    const fullMod = expandShortMod(part)
+    if (fullMod != null) {
+      return `L${fullMod.toUpperCase()}`
+    }
+
+    const expanded = expandSimpleMapping(part)
+    if (expanded == null) {
+      throw new Error("Unable to expand '${part}'")
+    }
+    return expanded
+  })
+  return wrapInParens(parts)
+}
+
+function wrapInParens(parts: string[], index = 0): string {
+  const isLastPart = index >= (parts.length - 1)
+  const next = isLastPart ? "" : `(${wrapInParens(parts, index + 1)})`
+  return `${parts[index]}${next}`
 }

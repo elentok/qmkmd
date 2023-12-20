@@ -1,5 +1,5 @@
 import { calcColumnWidths, layerQmkName } from "./layer.ts"
-import { expandLayer } from "./qmk-mapper.ts"
+import { expandLayer } from "./expand-layer.ts"
 import { Layout } from "./types.ts"
 
 export function writeQmkCode(layout: Layout): string[] {
