@@ -1,6 +1,7 @@
 import { Command } from "npm:commander"
 import { build } from "./commands/build.ts"
 import { LayerError, LayoutError } from "./lib/types.ts"
+import { format } from "./commands/format.ts"
 
 function main() {
   const program = new Command()
@@ -8,6 +9,10 @@ function main() {
   program.command("build <input.md> [generated-layout.h]")
     .description("Generates QMK header file from Markdown layout")
     .action(build)
+
+  program.command("format <input.md>")
+    .description("Formats the layer blocks by aligning the keys correctly")
+    .action(format)
 
   try {
     program.parse()

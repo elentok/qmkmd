@@ -1,4 +1,4 @@
-import { isNotCommentOrBlank, maxLayerColWidth } from "./helpers.ts"
+import { isNotCommentOrBlank } from "./helpers.ts"
 import { Layer, LayoutError, Structure } from "./types.ts"
 
 export function parseLayer(name: string, lines: string[], structure: Structure): Layer {
@@ -38,9 +38,11 @@ export function parseLayer(name: string, lines: string[], structure: Structure):
   return { name, rows: layerRows }
 }
 
-export function stringifyLayer(layer: Layer, structure: Structure): string[] {
+export function stringifyLayer(layer: Layer, structure: Structure, columnWidths?: number[]): string[] {
   const lines: string[] = []
-  const colWidth = maxLayerColWidth(layer)
+  if (columnWidths == null) {
+    columnWidths = calcColumnWidthsForLayer(layer)
+  }
 
   for (let rowIndex = 0; rowIndex < structure.rows.length; rowIndex++) {
     const row = structure.rows[rowIndex]
@@ -53,7 +55,7 @@ export function stringifyLayer(layer: Layer, structure: Structure): string[] {
       if (cell === "separator") {
         rowParts.push("||")
       } else {
-        rowParts.push((cell?.mapping ?? "").padEnd(colWidth))
+        rowParts.push((cell?.mapping ?? "").padEnd(columnWidths[colIndex]))
       }
     }
 

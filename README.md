@@ -79,6 +79,8 @@ echo 'PATH=$PATH:~/.qmkmd' >> ~/.zshrc
 
 ## Usage
 
+### Build
+
 To build a markdown file into a header file you can import in keymap.c run:
 
 ```sh
@@ -100,6 +102,36 @@ override it in the `options` block:
 layoutFn = MY_LAYOUT
 ```
 ````
+
+### Format
+
+To automatically align the layer columns in the layout.md file:
+
+```sh
+qmkmd format layout.md
+```
+
+If you're using Neovim you can use my [format-on-save][1] plugin to format the
+file whenever you save, e.g.
+
+```lua
+local function markdown_kb_layout_formatter()
+  if vim.fn.expand("%:t"):match("layout.md") then
+    return formatters.shell({ cmd = { "qmkmd", "format", "%" } })
+  end
+end
+
+format_on_save.setup({
+  formatter_by_ft = vim.tbl_extend("force", {
+    markdown = {
+      formatters.prettierd,
+      markdown_kb_layout_formatter,
+    },
+  },
+})
+```
+
+[1]: https://github.com/elentok/format-on-save.nvim
 
 ## TODO
 

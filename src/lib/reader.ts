@@ -1,12 +1,21 @@
 import { parseLayer } from "./layer.ts"
 import { parseOptions } from "./options.ts"
 import { parseStructure } from "./structure.ts"
-import { Layout, LayoutError, Options, Structure } from "./types.ts"
+import { Block, Layout, LayoutError, Options, Structure } from "./types.ts"
+
+export function readMarkdownFile(filename: string): { lines: string[]; blocks: Block[] } {
+  const lines = Deno.readTextFileSync(filename).split("\n")
+  const blocks = findBlocks(lines)
+
+  return { lines, blocks }
+}
 
 export function readLayout(filename: string): Layout {
-  const lines = Deno.readTextFileSync(filename).split("\n")
+  const { blocks } = readMarkdownFile(filename)
+  return parseBlocks(blocks)
+}
 
-  const blocks = findBlocks(lines)
+export function parseBlocks(blocks: Block[]): Layout {
   const options = parseOptionsBlock(blocks)
   const structure = parseStructureBlock(blocks)
   const layers = blocks.filter((b) => b.name.startsWith("layer:")).map((block) =>
@@ -39,13 +48,6 @@ function parseStructureBlock(blocks: Block[]): Structure {
   }
 
   return parseStructure(structureBlocks[0].lines)
-}
-
-interface Block {
-  name: string
-  lines: string[]
-  startLineNr: number
-  endLineNr: number
 }
 
 export function findBlocks(lines: string[]): Block[] {

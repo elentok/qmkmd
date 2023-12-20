@@ -62,9 +62,9 @@ Deno.test(function testStringifyLayer_NoSeparators() {
   ], structure)
 
   assertEquals(stringifyLayer(layer, structure), [
-    "a      b      c",
-    "d             l(f)/f",
-    "x      y",
+    "a b c",
+    "d   l(f)/f",
+    "x y",
   ])
 })
 
@@ -82,8 +82,8 @@ Deno.test(function testStringifyLayer_WithSeparators() {
   ], structure)
 
   assertEquals(stringifyLayer(layer, structure), [
-    "a      b      c      || e      f      rctl/g",
-    "d             l(f)/f || h      i",
-    "x      y             || j",
+    "a b c      || e f rctl/g",
+    "d   l(f)/f || h i",
+    "x y        || j",
   ])
 })

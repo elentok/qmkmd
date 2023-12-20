@@ -49,3 +49,10 @@ function rowColToText(row?: number, col?: number): string {
 
   return ` (${parts.join(", ")})`
 }
+
+export interface Block {
+  name: string
+  lines: string[]
+  startLineNr: number
+  endLineNr: number
+}
