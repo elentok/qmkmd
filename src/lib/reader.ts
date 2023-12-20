@@ -57,7 +57,7 @@ export function findBlocks(lines: string[]): Block[] {
   for (const line of lines) {
     lineNr++
     if (block == null) {
-      if (/^```(structure|layer:)/.test(line)) {
+      if (/^```(options|structure|layer:)/.test(line)) {
         block = {
           name: line.substring(3).trim(),
           lines: [],
