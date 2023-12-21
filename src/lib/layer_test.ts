@@ -1,9 +1,10 @@
 import { assertEquals } from "https://deno.land/std@0.204.0/assert/assert_equals.ts"
 import { parseLayer, stringifyLayer } from "./layer.ts"
 import { parseStructure } from "./structure.ts"
+import { createStructure } from "./test-helpers.ts"
 
 Deno.test(function testParseLayer_NoSeparators() {
-  const structure = parseStructure([
+  const structure = createStructure([
     "10 11 12",
     "13    14",
     "15 16",
@@ -25,7 +26,7 @@ Deno.test(function testParseLayer_NoSeparators() {
 })
 
 Deno.test(function testParseLayer_WithSeparators() {
-  const structure = parseStructure([
+  const structure = createStructure([
     "10 11 12 ||  1  2  3",
     "13    14 ||  4  5",
     "15 16    ||  6",
@@ -49,7 +50,7 @@ Deno.test(function testParseLayer_WithSeparators() {
 })
 
 Deno.test(function testStringifyLayer_NoSeparators() {
-  const structure = parseStructure([
+  const structure = createStructure([
     "10 11 12",
     "13    14",
     "15 16",
@@ -69,7 +70,7 @@ Deno.test(function testStringifyLayer_NoSeparators() {
 })
 
 Deno.test(function testStringifyLayer_WithSeparators() {
-  const structure = parseStructure([
+  const structure = createStructure([
     "10 11 12 ||  1  2  3",
     "13    14 ||  4  5",
     "15 16    ||  6",

@@ -3,14 +3,21 @@ import { countColumns, isStructureLineValid, parseStructure } from "./structure.
 
 Deno.test(function testParseStructure_NoSeparators() {
   assertEquals(
-    parseStructure([
-      "11 12 13 14 15",
-      "16     1  2  3",
-      "17  4  5  6  7",
-      "",
-    ]),
+    parseStructure({
+      name: "structure",
+      startLineNr: 100,
+      lines: [
+        "",
+        "",
+        "11 12 13 14 15",
+        "16     1  2  3",
+        "17  4  5  6  7",
+        "",
+      ],
+    }),
     {
       separators: [],
+      rowToLineNr: [102, 103, 104],
       rows: [
         [
           { keyIndex: 11 },
@@ -40,13 +47,19 @@ Deno.test(function testParseStructure_NoSeparators() {
 
 Deno.test(function testParseStructure_WithSeparators() {
   assertEquals(
-    parseStructure([
-      "11 12 13 || 16 17 18",
-      "19     1 ||  2  3",
-      "",
-    ]),
+    parseStructure({
+      startLineNr: 10,
+      name: "structure",
+      lines: [
+        "11 12 13 || 16 17 18",
+        "# comment",
+        "19     1 ||  2  3",
+        "",
+      ],
+    }),
     {
       separators: [3],
+      rowToLineNr: [10, 12],
       rows: [
         [{ keyIndex: 11 }, { keyIndex: 12 }, { keyIndex: 13 }, "separator", { keyIndex: 16 }, { keyIndex: 17 }, {
           keyIndex: 18,

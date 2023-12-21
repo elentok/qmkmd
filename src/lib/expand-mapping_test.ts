@@ -5,7 +5,7 @@ import { Layout } from "./types.ts"
 
 const layout: Layout = {
   options: { layoutFn: "LAYOUT" },
-  structure: { separators: [], rows: [] },
+  structure: { separators: [], rows: [], rowToLineNr: [] },
   layers: [
     {
       name: "f",

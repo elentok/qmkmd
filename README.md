@@ -137,4 +137,4 @@ format_on_save.setup({
 
 - [ ] Aliases
 - [ ] Linter
-- [ ] Formatter
+- [x] Formatter

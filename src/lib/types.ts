@@ -12,6 +12,7 @@ export interface Structure {
   /** The indexes for the separators */
   separators: number[]
   rows: StructureCell[][]
+  rowToLineNr: number[]
 }
 
 export type StructureCell = { keyIndex: number } | "separator" | null
@@ -28,9 +29,9 @@ export interface LayerCellMapping {
 }
 
 export class LayoutError extends Error {
-  // constructor(msg: string) {
-  //   super(lineNr != null ? `Error at line #${lineNr}: ${msg}` : msg)
-  // }
+  constructor(public msg: string, public lineNr?: number) {
+    super(lineNr != null ? `L${lineNr}: ${msg}` : msg)
+  }
 }
 
 export class LayerError extends Error {
@@ -54,5 +55,4 @@ export interface Block {
   name: string
   lines: string[]
   startLineNr: number
-  endLineNr: number
 }

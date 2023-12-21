@@ -47,13 +47,13 @@ function parseStructureBlock(blocks: Block[]): Structure {
     throw new LayoutError(`Found multiple structure blocks at lines ${lines}`)
   }
 
-  return parseStructure(structureBlocks[0].lines)
+  return parseStructure(structureBlocks[0])
 }
 
 export function findBlocks(lines: string[]): Block[] {
   const blocks: Block[] = []
 
-  let block: Omit<Block, "endLineNr"> | null = null
+  let block: Block | null = null
 
   let lineNr = 0
   for (const line of lines) {
@@ -63,12 +63,12 @@ export function findBlocks(lines: string[]): Block[] {
         block = {
           name: line.substring(3).trim(),
           lines: [],
-          startLineNr: lineNr,
+          startLineNr: lineNr + 1,
         }
       }
     } else {
       if (line === "```") {
-        blocks.push({ ...block, endLineNr: lineNr })
+        blocks.push(block)
         block = null
       } else {
         block.lines.push(line)

@@ -21,14 +21,12 @@ Deno.test(function testFindBlocks() {
     {
       name: "structure",
       lines: ["hello", "world"],
-      startLineNr: 2,
-      endLineNr: 5,
+      startLineNr: 3,
     },
     {
       name: "layer:abc",
       lines: ["hello1", "world1", ""],
-      startLineNr: 7,
-      endLineNr: 11,
+      startLineNr: 8,
     },
   ])
 })

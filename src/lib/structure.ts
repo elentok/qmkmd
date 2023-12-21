@@ -1,19 +1,19 @@
-import { isNotCommentOrBlank } from "./helpers.ts"
-import { LayoutError, Structure, StructureCell } from "./types.ts"
+import { filterPresentRows } from "./helpers.ts"
+import { Block, LayoutError, Structure, StructureCell } from "./types.ts"
 
-export function parseStructure(lines: string[]): Structure {
-  const presentLines = lines.filter(isNotCommentOrBlank)
+export function parseStructure(block: Block): Structure {
+  const { lines, indexToLineNr } = filterPresentRows(block.lines, block.startLineNr)
 
-  const s: Structure = { rows: [], separators: [] }
+  const s: Structure = { rows: [], separators: [], rowToLineNr: indexToLineNr }
 
-  presentLines.forEach((line, index) => {
+  lines.forEach((line, index) => {
     if (!isStructureLineValid(line)) {
-      throw new LayoutError(`Invalid structure line #${index + 1}: '${line}'`)
+      throw new LayoutError(`Invalid structure row ${index + 1}: '${line}'`, indexToLineNr[index])
     }
   })
-  const columns = countColumns(presentLines)
+  const columns = countColumns(lines)
 
-  for (const line of presentLines) {
+  for (const line of lines) {
     const row: StructureCell[] = []
     for (let i = 0; i < columns; i++) {
       const value = line.substring(i * 3, i * 3 + 3).trim()
@@ -25,6 +25,7 @@ export function parseStructure(lines: string[]): Structure {
         row.push({ keyIndex: Number(value) })
       }
     }
+
     s.rows.push(row)
   }
 
