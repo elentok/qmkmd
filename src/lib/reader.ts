@@ -1,7 +1,8 @@
+import { parseAliases } from "./aliases.ts"
 import { parseLayer } from "./layer.ts"
 import { parseOptions } from "./options.ts"
 import { parseStructure } from "./structure.ts"
-import { Block, Layout, LayoutError, Options, Structure } from "./types.ts"
+import { Aliases, Block, Layout, LayoutError, Options, Structure } from "./types.ts"
 
 export function readMarkdownFile(filename: string): { lines: string[]; blocks: Block[] } {
   const lines = Deno.readTextFileSync(filename).split("\n")
@@ -19,12 +20,26 @@ export function parseBlocks(blocks: Block[]): Layout {
   const options = parseOptionsBlock(blocks)
   const structure = parseStructureBlock(blocks)
   const layers = blocks.filter((b) => b.name.startsWith("layer:")).map((block) => parseLayer(block, structure))
+  const aliases = parseAliasesBlock(blocks)
 
-  return { options, structure, layers }
+  return { options, structure, layers, aliases }
+}
+
+function parseAliasesBlock(blocks: Block[]): Aliases | undefined {
+  const aliasesBlocks = blocks.filter((b) => b.name === "aliases")
+
+  if (aliasesBlocks.length > 1) {
+    const lines = aliasesBlocks.map((b) => b.startLineNr).join(", ")
+    throw new LayoutError(`Found multiple options blocks at lines ${lines}`)
+  }
+
+  if (aliasesBlocks.length === 0) return
+
+  return parseAliases(aliasesBlocks[0])
 }
 
 function parseOptionsBlock(blocks: Block[]): Options {
-  const optionsBlocks = blocks.filter((b) => b.name === "options")
+  const optionsBlocks = blocks.filter((b) => b.name === "aliases")
 
   if (optionsBlocks.length > 1) {
     const lines = optionsBlocks.map((b) => b.startLineNr).join(", ")
@@ -57,7 +72,7 @@ export function findBlocks(lines: string[]): Block[] {
   for (const line of lines) {
     lineNr++
     if (block == null) {
-      if (/^```(options|structure|layer:)/.test(line)) {
+      if (/^```(aliases|options|structure|layer:)/.test(line)) {
         block = {
           name: line.substring(3).trim(),
           lines: [],

@@ -1,15 +1,14 @@
+import { parseVariable } from "./helpers.ts"
 import { Options } from "./types.ts"
 
 export function parseOptions(lines?: string[]): Options {
   const options = new Map<string, string>()
 
   for (const line of (lines ?? [])) {
-    const eqlIndex = line.indexOf("=")
-    if (eqlIndex == null) continue
-
-    const name = line.substring(0, eqlIndex).trim()
-    const value = line.substring(eqlIndex + 1).trim()
-    options.set(name, value)
+    const v = parseVariable(line)
+    if (v != null) {
+      options.set(v.name, v.value)
+    }
   }
 
   return {

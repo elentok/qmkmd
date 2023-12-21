@@ -97,7 +97,7 @@ mods.forEach((mod) => {
 
 export function expandMapping(mapping: string, layout: Layout): string | undefined {
   return expandSimpleMapping(mapping) || expandModOrLayerTap(mapping, layout) || expandOneShotMod(mapping) ||
-    expandCombo(mapping) || expandLayerCommand(mapping, layout)
+    expandCombo(mapping) || expandLayerCommand(mapping, layout) || expandAlias(mapping, layout)
 }
 
 function expandSimpleMapping(mapping: string): string | undefined {
@@ -176,11 +176,20 @@ function expandCombo(mapping: string): string | undefined {
 
     const expanded = expandSimpleMapping(part)
     if (expanded == null) {
-      throw new Error("Unable to expand '${part}'")
+      throw new Error(`Unable to expand '${part}'`)
     }
     return expanded
   })
   return wrapInParens(parts)
+}
+
+function expandAlias(mapping: string, layout: Layout): string | undefined {
+  if (layout.aliases == null) return
+
+  const alias = layout.aliases.get(mapping)
+  if (alias == null) return
+
+  return expandMapping(alias.value, layout)
 }
 
 function wrapInParens(parts: string[], index = 0): string {

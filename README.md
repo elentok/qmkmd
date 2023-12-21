@@ -45,9 +45,9 @@ code blocks:
    ````md
    ```aliases
    # Previous tab
-   tabp = lgui + lsft + [
+   tabp = g+s+[
    # Next tab
-   tabn = lgui + lsft + ]
+   tabn = g+s+]
    ```
    ````
 
@@ -132,9 +132,3 @@ format_on_save.setup({
 ```
 
 [1]: https://github.com/elentok/format-on-save.nvim
-
-## TODO
-
-- [ ] Aliases
-- [ ] Linter
-- [x] Formatter

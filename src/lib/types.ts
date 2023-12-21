@@ -2,10 +2,18 @@ export interface Layout {
   structure: Structure
   layers: Layer[]
   options: Options
+  aliases?: Aliases
 }
 
 export interface Options {
   layoutFn: string
+}
+
+export type Aliases = Map<string, Alias>
+
+export interface Alias {
+  value: string
+  lineNr: number
 }
 
 export interface Structure {

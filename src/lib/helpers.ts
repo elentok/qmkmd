@@ -30,6 +30,16 @@ export function filterPresentRows(block: Block): PresentLines {
   }
 }
 
+export function parseVariable(line: string): { name: string; value: string } | undefined {
+  const eqlIndex = line.indexOf("=")
+  if (eqlIndex == null) return
+
+  const name = line.substring(0, eqlIndex).trim()
+  const value = line.substring(eqlIndex + 1).trim()
+
+  return { name, value }
+}
+
 export function maxLayerColWidth(layer: Layer): number {
   let maxLength = 0
   for (const row of layer.rows) {

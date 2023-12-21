@@ -1,11 +1,12 @@
 import { assertEquals } from "https://deno.land/std@0.204.0/assert/assert_equals.ts"
 import { assertThrows } from "https://deno.land/std@0.204.0/assert/assert_throws.ts"
 import { expandMapping } from "./expand-mapping.ts"
-import { Layout } from "./types.ts"
+import { Alias, Layout } from "./types.ts"
 
 const layout: Layout = {
   options: { layoutFn: "LAYOUT" },
   structure: { separators: [], rows: [], rowToLineNr: [] },
+  aliases: new Map<string, Alias>([["lock", { value: "c+g+q", lineNr: 3 }]]),
   layers: [
     {
       name: "f",
@@ -74,4 +75,8 @@ Deno.test(function testExpandMapping_LayerCommands() {
 Deno.test(function testExpandMapping_Combo() {
   assertEquals(expandMapping("s+tab", layout), "LSFT(KC_TAB)")
   assertEquals(expandMapping("s+g+tab", layout), "LSFT(LGUI(KC_TAB))")
+})
+
+Deno.test(function testExpandMapping_Alias() {
+  assertEquals(expandMapping("lock", layout), "LCTL(LGUI(KC_Q))")
 })
