@@ -1,4 +1,4 @@
-import { Layer } from "./types.ts"
+import { Block, Layer } from "./types.ts"
 
 export function isCommentOrBlank(line: string): boolean {
   return /^\s*$/.test(line) || line.startsWith("#")
@@ -13,15 +13,15 @@ export interface PresentLines {
   indexToLineNr: number[]
 }
 
-export function filterPresentRows(lines: string[], firstLineNr: number): PresentLines {
+export function filterPresentRows(block: Block): PresentLines {
   const indexToLineNr: number[] = []
   const presentLines: string[] = []
 
-  lines.forEach((line, lineIndex) => {
+  block.lines.forEach((line, lineIndex) => {
     if (isCommentOrBlank(line)) return
 
     presentLines.push(line)
-    indexToLineNr.push(firstLineNr + lineIndex)
+    indexToLineNr.push(block.startLineNr + lineIndex)
   })
 
   return {

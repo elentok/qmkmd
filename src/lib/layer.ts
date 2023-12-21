@@ -1,24 +1,25 @@
-import { isNotCommentOrBlank } from "./helpers.ts"
-import { Layer, LayoutError, Structure } from "./types.ts"
+import { filterPresentRows } from "./helpers.ts"
+import { Block, Layer, LayoutError, Structure } from "./types.ts"
 
-export function parseLayer(name: string, lines: string[], structure: Structure): Layer {
-  const presentLines = lines.filter(isNotCommentOrBlank)
+export function parseLayer(block: Block, structure: Structure): Layer {
+  const name = block.name.replace(/^layer:/, "")
+  const { lines, indexToLineNr } = filterPresentRows(block)
 
-  if (presentLines.length !== structure.rows.length) {
+  if (lines.length !== structure.rows.length) {
     throw new LayoutError(
-      `Layer '${name}' has ${presentLines.length} rows while the structure has ${structure.rows.length} rows`,
+      `Layer '${name}' has ${lines.length} rows while the structure has ${structure.rows.length} rows`,
+      block.startLineNr,
     )
   }
 
   const layerRows = structure.rows.map((structureRow, rowIndex) => {
-    const line = presentLines[rowIndex]
+    const line = lines[rowIndex]
     const mappings = line.trim().split(/\s+/)
     const nonNullCells = structureRow.filter((c) => c != null).length
     if (mappings.length !== nonNullCells) {
       throw new LayoutError(
-        `Layer ${name} row ${
-          rowIndex + 1
-        } has ${mappings.length} mappings, but the structure specifies ${nonNullCells}`,
+        `Layer ${name} row ${rowIndex + 1} has ${mappings.length} mappings but the structure specifies ${nonNullCells}`,
+        indexToLineNr[rowIndex],
       )
     }
 
@@ -35,7 +36,7 @@ export function parseLayer(name: string, lines: string[], structure: Structure):
     })
   })
 
-  return { name, rows: layerRows }
+  return { name, rows: layerRows, rowToLineNr: indexToLineNr }
 }
 
 export function stringifyLayer(layer: Layer, structure: Structure, columnWidths?: number[]): string[] {

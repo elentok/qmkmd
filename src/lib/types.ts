@@ -20,6 +20,7 @@ export type StructureCell = { keyIndex: number } | "separator" | null
 export interface Layer {
   name: string
   rows: LayerCell[][]
+  rowToLineNr: number[]
 }
 
 export type LayerCell = LayerCellMapping | "separator" | null
@@ -34,10 +35,17 @@ export class LayoutError extends Error {
   }
 }
 
-export class LayerError extends Error {
-  constructor(public msg: string, public layer: Layer, public row?: number, public col?: number) {
+export class LayerError extends LayoutError {
+  constructor(
+    public msg: string,
+    public layer: Layer,
+    public lineNr?: number,
+    public row?: number,
+    public col?: number,
+  ) {
     super(
       `Error at layer '${layer.name}'${rowColToText(row, col)}: ${msg}`,
+      lineNr,
     )
   }
 }

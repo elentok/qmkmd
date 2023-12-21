@@ -18,9 +18,7 @@ export function readLayout(filename: string): Layout {
 export function parseBlocks(blocks: Block[]): Layout {
   const options = parseOptionsBlock(blocks)
   const structure = parseStructureBlock(blocks)
-  const layers = blocks.filter((b) => b.name.startsWith("layer:")).map((block) =>
-    parseLayer(block.name.replace(/^layer:/, ""), block.lines, structure)
-  )
+  const layers = blocks.filter((b) => b.name.startsWith("layer:")).map((block) => parseLayer(block, structure))
 
   return { options, structure, layers }
 }

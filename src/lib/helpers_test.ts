@@ -3,15 +3,19 @@ import { filterPresentRows } from "./helpers.ts"
 
 Deno.test(function testFilterPresentRows() {
   assertEquals(
-    filterPresentRows([
-      "one",
-      "",
-      "#comment",
-      "three",
-      "four",
-      "#comment2",
-      "five",
-    ], 10),
+    filterPresentRows({
+      name: "theName",
+      lines: [
+        "one",
+        "",
+        "#comment",
+        "three",
+        "four",
+        "#comment2",
+        "five",
+      ],
+      startLineNr: 10,
+    }),
     {
       lines: ["one", "three", "four", "five"],
       indexToLineNr: [10, 13, 14, 16],

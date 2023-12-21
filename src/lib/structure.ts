@@ -2,7 +2,7 @@ import { filterPresentRows } from "./helpers.ts"
 import { Block, LayoutError, Structure, StructureCell } from "./types.ts"
 
 export function parseStructure(block: Block): Structure {
-  const { lines, indexToLineNr } = filterPresentRows(block.lines, block.startLineNr)
+  const { lines, indexToLineNr } = filterPresentRows(block)
 
   const s: Structure = { rows: [], separators: [], rowToLineNr: indexToLineNr }
 

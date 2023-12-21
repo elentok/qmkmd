@@ -10,10 +10,12 @@ const layout: Layout = {
     {
       name: "f",
       rows: [],
+      rowToLineNr: [],
     },
     {
       name: "base",
       rows: [],
+      rowToLineNr: [],
     },
   ],
 }
