@@ -24,5 +24,5 @@ export function format(input: string): void {
     }
   })
 
-  console.log(lines.join("\n"))
+  Deno.writeTextFileSync(input, lines.join("\n"))
 }
