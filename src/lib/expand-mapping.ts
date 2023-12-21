@@ -12,6 +12,8 @@ const keys = [
   "right",
   "ent",
   "home",
+  "pgup",
+  "pgdn",
   "end",
   "spc",
   "wbak", // Web Back
