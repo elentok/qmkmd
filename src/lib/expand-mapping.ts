@@ -57,7 +57,7 @@ const simpleMappings = new Map<string, string>(
     ["<", "KC_LABK"],
     [">", "KC_RABK"],
     ["{", "KC_LCBR"],
-    ["}", "KC_RBRC"],
+    ["}", "KC_RCBR"],
     ["(", "KC_LPRN"],
     [")", "KC_RPRN"],
     ["~", "KC_TILD"],
