@@ -1,5 +1,5 @@
 import { filterPresentRows } from "./helpers.ts"
-import { Block, Layer, LayoutError, Structure } from "./types.ts"
+import { Block, Layer, LayerCell, LayoutError, Structure } from "./types.ts"
 
 export function parseLayer(block: Block, structure: Structure): Layer {
   const name = block.name.replace(/^layer:/, "")
@@ -94,4 +94,14 @@ function calcColumnWidthsForLayer(layer: Layer): number[] {
 
 export function layerQmkName(name: string): string {
   return `L${name.toUpperCase()}`
+}
+
+export function createLayerRows(structure: Structure): LayerCell[][] {
+  return structure.rows.map((row) => {
+    return row.map((cell) => {
+      if (cell == null || cell === "separator") return cell
+
+      return { mapping: "__" }
+    })
+  })
 }

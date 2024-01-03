@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.204.0/assert/assert_equals.ts"
-import { parseLayer, stringifyLayer } from "./layer.ts"
+import { createLayerRows, parseLayer, stringifyLayer } from "./layer.ts"
 import { createStructure } from "./test-helpers.ts"
 
 Deno.test(function testParseLayer_NoSeparators() {
@@ -110,4 +110,48 @@ Deno.test(function testStringifyLayer_WithSeparators() {
     "d   l(f)/f || h i",
     "x y        || j",
   ])
+})
+
+Deno.test(function testCreateLayer() {
+  const structure = createStructure([
+    "10 11 12",
+    "13    14",
+    "15 16",
+  ])
+
+  assertEquals(createLayerRows(structure), [
+    [{ mapping: "__" }, { mapping: "__" }, { mapping: "__" }],
+    [{ mapping: "__" }, null, { mapping: "__" }],
+    [{ mapping: "__" }, { mapping: "__" }, null],
+  ])
+})
+
+Deno.test(function testParseLayer_WithSeparators() {
+  const structure = createStructure([
+    "10 11 12 ||  1  2  3",
+    "13    14 ||  4  5",
+    "15 16    ||  6",
+  ])
+
+  const block = {
+    name: "layer:layer1",
+    startLineNr: 10,
+    lines: [
+      "#comment",
+      "a b   c || e f rctl/g",
+      "d l(f)/f || h i",
+      "x y || j",
+    ],
+  }
+  assertEquals(parseLayer(block, structure), {
+    name: "layer1",
+    rows: [
+      [{ mapping: "a" }, { mapping: "b" }, { mapping: "c" }, "separator", { mapping: "e" }, { mapping: "f" }, {
+        mapping: "rctl/g",
+      }],
+      [{ mapping: "d" }, null, { mapping: "l(f)/f" }, "separator", { mapping: "h" }, { mapping: "i" }, null],
+      [{ mapping: "x" }, { mapping: "y" }, null, "separator", { mapping: "j" }, null, null],
+    ],
+    rowToLineNr: [11, 12, 13],
+  })
 })

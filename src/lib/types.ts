@@ -72,3 +72,8 @@ export interface Block {
   lines: string[]
   startLineNr: number
 }
+
+export interface KeyRange {
+  start: number
+  end: number
+}
