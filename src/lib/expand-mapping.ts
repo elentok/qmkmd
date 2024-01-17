@@ -168,10 +168,15 @@ function expandLayerCommand(mapping: string, layout: Layout): string | undefined
 function expandCombo(mapping: string): string | undefined {
   if (!mapping.includes("+")) return
 
-  const parts = mapping.split("+").map((part) => {
-    const fullMod = expandShortMod(part)
-    if (fullMod != null) {
-      return `L${fullMod.toUpperCase()}`
+  const rawParts = mapping.split("+")
+  const parts = rawParts.map((part, index) => {
+    const isLast = index >= (rawParts.length - 1)
+
+    if (!isLast) {
+      const fullMod = expandShortMod(part)
+      if (fullMod != null) {
+        return `L${fullMod.toUpperCase()}`
+      }
     }
 
     const expanded = expandSimpleMapping(part)

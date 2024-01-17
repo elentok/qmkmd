@@ -75,6 +75,7 @@ Deno.test(function testExpandMapping_LayerCommands() {
 Deno.test(function testExpandMapping_Combo() {
   assertEquals(expandMapping("s+tab", layout), "LSFT(KC_TAB)")
   assertEquals(expandMapping("s+g+tab", layout), "LSFT(LGUI(KC_TAB))")
+  assertEquals(expandMapping("c+a", layout), "LCTL(KC_A)")
 })
 
 Deno.test(function testExpandMapping_Alias() {
