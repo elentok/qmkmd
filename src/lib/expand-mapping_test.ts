@@ -72,6 +72,10 @@ Deno.test(function testExpandMapping_LayerCommands() {
   })
 })
 
+Deno.test(function testExpandMapping_RawKeycodes() {
+  assertEquals(expandMapping("raw(MY_MACRO)", layout), "MY_MACRO")
+})
+
 Deno.test(function testExpandMapping_Combo() {
   assertEquals(expandMapping("s+tab", layout), "LSFT(KC_TAB)")
   assertEquals(expandMapping("s+g+tab", layout), "LSFT(LGUI(KC_TAB))")

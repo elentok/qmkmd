@@ -96,7 +96,8 @@ mods.forEach((mod) => {
 })
 
 export function expandMapping(mapping: string, layout: Layout): string | undefined {
-  return expandSimpleMapping(mapping) || expandModOrLayerTap(mapping, layout) || expandOneShotMod(mapping) ||
+  return expandRaw(mapping) || expandSimpleMapping(mapping) || expandModOrLayerTap(mapping, layout) ||
+    expandOneShotMod(mapping) ||
     expandCombo(mapping) || expandLayerCommand(mapping, layout) || expandAlias(mapping, layout)
 }
 
@@ -205,4 +206,11 @@ function wrapInParens(parts: string[], index = 0): string {
 
 function hasLayer(layout: Layout, name: string): boolean {
   return layout.layers.find((l) => l.name === name) != null
+}
+
+function expandRaw(mapping: string): string | undefined {
+  const match = /^raw\((.*)\)$/.exec(mapping)
+  if (match == null) return
+
+  return match[1]
 }
