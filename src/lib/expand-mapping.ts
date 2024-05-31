@@ -18,6 +18,7 @@ const keys = [
   "spc",
   "wbak", // Web Back
   "wfwd", // Web Forward
+  "pscr", // Print Screen
 ]
 
 for (let i = 1; i < 13; i++) {
