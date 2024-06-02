@@ -16,6 +16,7 @@ const keys = [
   "pgdn",
   "end",
   "spc",
+  "del",
   "wbak", // Web Back
   "wfwd", // Web Forward
   "pscr", // Print Screen
