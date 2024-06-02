@@ -39,7 +39,7 @@ function parseAliasesBlock(blocks: Block[]): Aliases | undefined {
 }
 
 function parseOptionsBlock(blocks: Block[]): Options {
-  const optionsBlocks = blocks.filter((b) => b.name === "aliases")
+  const optionsBlocks = blocks.filter((b) => b.name === "options")
 
   if (optionsBlocks.length > 1) {
     const lines = optionsBlocks.map((b) => b.startLineNr).join(", ")
