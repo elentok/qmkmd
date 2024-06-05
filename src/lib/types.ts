@@ -3,6 +3,7 @@ export interface Layout {
   layers: Layer[]
   options: Options
   aliases?: Aliases
+  combos?: Combo[]
 }
 
 export interface Options {
@@ -76,4 +77,10 @@ export interface Block {
 export interface KeyRange {
   start: number
   end: number
+}
+
+export interface Combo {
+  keys: string
+  action: string
+  lineNr: number
 }

@@ -2,11 +2,65 @@
   "version": "3",
   "packages": {
     "specifiers": {
+      "jsr:@std/assert@^0.225.2": "jsr:@std/assert@0.225.3",
+      "jsr:@std/path": "jsr:@std/path@0.225.1",
+      "jsr:@std/testing": "jsr:@std/testing@0.225.0",
+      "npm:chai": "npm:chai@5.1.1",
       "npm:commander": "npm:commander@11.1.0"
     },
+    "jsr": {
+      "@std/assert@0.225.3": {
+        "integrity": "b3c2847aecf6955b50644cdb9cf072004ea3d1998dd7579fc0acb99dbb23bd4f"
+      },
+      "@std/path@0.225.1": {
+        "integrity": "8c3220635a73730eb51fe43de9e10b79e2724a5bb8638b9355d35ae012fd9429",
+        "dependencies": [
+          "jsr:@std/assert@^0.225.2"
+        ]
+      },
+      "@std/testing@0.225.0": {
+        "integrity": "53ca3c47eb121acabda633fd50699c4b33da6a7ce3e5bb34d7277d15df5f0a6e"
+      }
+    },
     "npm": {
+      "assertion-error@2.0.1": {
+        "integrity": "sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==",
+        "dependencies": {}
+      },
+      "chai@5.1.1": {
+        "integrity": "sha512-pT1ZgP8rPNqUgieVaEY+ryQr6Q4HXNg8Ei9UnLUrjN4IA7dvQC5JB+/kxVcPNDHyBcc/26CXPkbNzq3qwrOEKA==",
+        "dependencies": {
+          "assertion-error": "assertion-error@2.0.1",
+          "check-error": "check-error@2.1.1",
+          "deep-eql": "deep-eql@5.0.2",
+          "loupe": "loupe@3.1.1",
+          "pathval": "pathval@2.0.0"
+        }
+      },
+      "check-error@2.1.1": {
+        "integrity": "sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==",
+        "dependencies": {}
+      },
       "commander@11.1.0": {
         "integrity": "sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==",
+        "dependencies": {}
+      },
+      "deep-eql@5.0.2": {
+        "integrity": "sha512-h5k/5U50IJJFpzfL6nO9jaaumfjO/f2NjK/oYB2Djzm4p9L+3T9qWpZqZ2hAbLPuuYq9wrU08WQyBTL5GbPk5Q==",
+        "dependencies": {}
+      },
+      "get-func-name@2.0.2": {
+        "integrity": "sha512-8vXOvuE167CtIc3OyItco7N/dpRtBbYOsPsXCz7X/PMnlGjYjSGuZJgM1Y7mmew7BKf9BqvLX2tnOVy1BBUsxQ==",
+        "dependencies": {}
+      },
+      "loupe@3.1.1": {
+        "integrity": "sha512-edNu/8D5MKVfGVFRhFf8aAxiTM6Wumfz5XsaatSxlD3w4R1d/WEKUTydCdPGbl9K7QG/Ca3GnDV2sIKIpXRQcw==",
+        "dependencies": {
+          "get-func-name": "get-func-name@2.0.2"
+        }
+      },
+      "pathval@2.0.0": {
+        "integrity": "sha512-vE7JKRyES09KiunauX7nd2Q9/L7lhok4smP9RZTDeD4MVs72Dp2qNFVz39Nz5a0FVEW0BJR6C0DYrq6unoziZA==",
         "dependencies": {}
       }
     }

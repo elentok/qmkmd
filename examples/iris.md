@@ -12,6 +12,10 @@ layoutFn = LAYOUT
 lock = c+g+q
 ```
 
+```combos
+q+w = esc
+```
+
 ## Keyboard Structure
 
 ```structure
