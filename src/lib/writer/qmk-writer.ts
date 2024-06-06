@@ -2,6 +2,7 @@ import { layerQmkName } from "./layer.ts"
 import { expandLayer } from "./expand-layer.ts"
 import { Layer, Layout } from "../types.ts"
 import { calcColumnWidths } from "../layer-helpers.ts"
+import { writeCombos } from "./write-combos.ts"
 
 export function writeQmkCode(layout: Layout): string[] {
   const lines = [
@@ -9,6 +10,7 @@ export function writeQmkCode(layout: Layout): string[] {
     ...writeQmkLayersEnumCode(layout),
     "",
     ...writeQmkLayersCode(layout),
+    ...writeCombos(layout),
   ]
 
   return lines
