@@ -1,5 +1,5 @@
-import { filterPresentRows } from "./helpers.ts"
-import { Block, LayoutError, Structure, StructureCell } from "./types.ts"
+import { filterPresentRows } from "../helpers.ts"
+import { Block, LayoutError, Structure, StructureCell } from "../types.ts"
 
 export function parseStructure(block: Block): Structure {
   const { lines, indexToLineNr } = filterPresentRows(block)

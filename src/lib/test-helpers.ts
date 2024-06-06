@@ -1,4 +1,4 @@
-import { parseStructure } from "./structure.ts"
+import { parseStructure } from "./parser/structure.ts"
 import { Structure } from "./types.ts"
 
 export function createStructure(lines: string[]): Structure {

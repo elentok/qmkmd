@@ -1,5 +1,5 @@
-import { filterPresentRows, parseVariable } from "./helpers.ts"
-import { Block, Combo } from "./types.ts"
+import { filterPresentRows, parseVariable } from "../helpers.ts"
+import { Block, Combo } from "../types.ts"
 
 export function parseCombos(block: Block): Combo[] {
   const { lines, indexToLineNr } = filterPresentRows(block)

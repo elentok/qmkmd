@@ -1,5 +1,5 @@
-import { filterPresentRows, parseVariable } from "./helpers.ts"
-import { Alias, Aliases, Block } from "./types.ts"
+import { filterPresentRows, parseVariable } from "../helpers.ts"
+import { Alias, Aliases, Block } from "../types.ts"
 
 export function parseAliases(block: Block): Aliases {
   const { lines, indexToLineNr } = filterPresentRows(block)

@@ -1,5 +1,5 @@
 import { layerQmkName } from "./layer.ts"
-import { Layout } from "./types.ts"
+import { Layout } from "../types.ts"
 
 const mods = ["gui", "ctl", "alt", "sft"]
 const keys = [

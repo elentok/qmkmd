@@ -1,5 +1,5 @@
-import { parseVariable } from "./helpers.ts"
-import { Options } from "./types.ts"
+import { parseVariable } from "../helpers.ts"
+import { Options } from "../types.ts"
 
 export function parseOptions(lines?: string[]): Options {
   const options = new Map<string, string>()

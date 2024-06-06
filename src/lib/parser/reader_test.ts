@@ -19,7 +19,7 @@ const lines = [
 ]
 
 const __dirname = new URL(".", import.meta.url).pathname
-const exampleLayoutFilename = join(__dirname, "..", "..", "examples", "iris.md")
+const exampleLayoutFilename = join(__dirname, "..", "..", "..", "examples", "iris.md")
 const exampleLayout = Deno.readTextFileSync(exampleLayoutFilename)
 
 describe(findBlocks.name, () => {

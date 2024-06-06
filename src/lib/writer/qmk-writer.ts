@@ -1,6 +1,6 @@
 import { calcColumnWidths, layerQmkName } from "./layer.ts"
 import { expandLayer } from "./expand-layer.ts"
-import { Layer, Layout } from "./types.ts"
+import { Layer, Layout } from "../types.ts"
 
 export function writeQmkCode(layout: Layout): string[] {
   const lines = [

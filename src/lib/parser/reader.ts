@@ -3,7 +3,7 @@ import { parseCombos } from "./combos.ts"
 import { parseLayer } from "./layer.ts"
 import { parseOptions } from "./options.ts"
 import { parseStructure } from "./structure.ts"
-import { Aliases, Block, Combo, Layout, LayoutError, Options, Structure } from "./types.ts"
+import { Aliases, Block, Combo, Layout, LayoutError, Options, Structure } from "../types.ts"
 
 export function readMarkdownFile(filename: string): { lines: string[]; blocks: Block[] } {
   const lines = Deno.readTextFileSync(filename).split("\n")

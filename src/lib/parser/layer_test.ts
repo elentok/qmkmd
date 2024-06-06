@@ -1,6 +1,7 @@
 import { assertEquals } from "https://deno.land/std@0.204.0/assert/assert_equals.ts"
-import { createLayerRows, parseLayer, stringifyLayer } from "./layer.ts"
-import { createStructure } from "./test-helpers.ts"
+import { createLayerRows, parseLayer } from "./layer.ts"
+import { createStructure } from "../test-helpers.ts"
+import { stringifyLayer } from "../layer-helpers.ts"
 
 Deno.test(function testParseLayer_NoSeparators() {
   const structure = createStructure([

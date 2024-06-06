@@ -1,5 +1,5 @@
 import { expandMapping } from "./expand-mapping.ts"
-import { Layer, LayerError, Layout } from "./types.ts"
+import { Layer, LayerError, Layout } from "../types.ts"
 
 export function expandLayer(layer: Layer, layout: Layout): Layer {
   return {

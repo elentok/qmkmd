@@ -1,7 +1,7 @@
 import { assertEquals } from "https://deno.land/std@0.204.0/assert/assert_equals.ts"
 import { assertThrows } from "https://deno.land/std@0.204.0/assert/assert_throws.ts"
 import { expandMapping } from "./expand-mapping.ts"
-import { Alias, Layout } from "./types.ts"
+import { Alias, Layout } from "../types.ts"
 
 const layout: Layout = {
   options: { layoutFn: "LAYOUT" },
