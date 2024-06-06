@@ -1,43 +1,12 @@
 import { describe, it } from "jsr:@std/testing/bdd"
 import { join } from "jsr:@std/path"
 import { expect } from "npm:chai"
-import { findBlocks, parseBlocks } from "./reader.ts"
-
-const lines = [
-  "",
-  "```structure",
-  "hello",
-  "world",
-  "```",
-  "",
-  "```layer:abc",
-  "hello1",
-  "world1",
-  "",
-  "```",
-  "",
-]
+import { parseBlocks } from "./parser.ts"
+import { findBlocks } from "./blocks.ts"
 
 const __dirname = new URL(".", import.meta.url).pathname
 const exampleLayoutFilename = join(__dirname, "..", "..", "..", "examples", "iris.md")
 const exampleLayout = Deno.readTextFileSync(exampleLayoutFilename)
-
-describe(findBlocks.name, () => {
-  it("identifies the blocks", () => {
-    expect(findBlocks(lines)).to.eql([
-      {
-        name: "structure",
-        lines: ["hello", "world"],
-        startLineNr: 3,
-      },
-      {
-        name: "layer:abc",
-        lines: ["hello1", "world1", ""],
-        startLineNr: 8,
-      },
-    ])
-  })
-})
 
 describe(parseBlocks.name, () => {
   const blocks = findBlocks(exampleLayout.split("\n"))

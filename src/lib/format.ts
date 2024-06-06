@@ -1,5 +1,5 @@
 import { isNotCommentOrBlank } from "./helpers.ts"
-import { calcColumnWidths, stringifyLayer } from "./layer.ts"
+import { calcColumnWidths, stringifyLayer } from "./layer-helpers.ts"
 import { Block, Layout, LayoutError } from "./types.ts"
 
 export function rewriteLines(lines: string[], blocks: Block[], layout: Layout) {

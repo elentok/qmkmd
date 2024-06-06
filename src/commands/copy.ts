@@ -1,13 +1,13 @@
 import { copyKeys } from "../lib/copy-keys.ts"
 import { rewriteLines } from "../lib/format.ts"
-import { parseBlocks, readMarkdownFile } from "../lib/reader.ts"
+import { parseBlocks, parseMarkdownFile } from "../lib/parser/parser.ts"
 import { KeyRange } from "../lib/types.ts"
 
 export function copy(source: string, target: string, { range }: { range?: string }): void {
-  const { blocks: sourceBlocks } = readMarkdownFile(source)
+  const { blocks: sourceBlocks } = parseMarkdownFile(source)
   const sourceLayout = parseBlocks(sourceBlocks)
 
-  const { lines: targetLines, blocks: targetBlocks } = readMarkdownFile(target)
+  const { lines: targetLines, blocks: targetBlocks } = parseMarkdownFile(target)
   const targetLayout = parseBlocks(targetBlocks)
 
   copyKeys(sourceLayout, targetLayout, { range: parseRange(range) })
