@@ -13,5 +13,6 @@ export function parseOptions(lines?: string[]): Options {
 
   return {
     layoutFn: options.get("layoutFn") ?? "LAYOUT",
+    imports: options.get("imports")?.split(/\s*,\s*/),
   }
 }

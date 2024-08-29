@@ -8,6 +8,7 @@ export interface Layout {
 
 export interface Options {
   layoutFn: string
+  imports?: string[]
 }
 
 export type Aliases = Map<string, Alias>

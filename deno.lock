@@ -3,8 +3,11 @@
   "packages": {
     "specifiers": {
       "jsr:@std/assert@^0.225.2": "jsr:@std/assert@0.225.3",
-      "jsr:@std/path": "jsr:@std/path@0.225.1",
-      "jsr:@std/testing": "jsr:@std/testing@0.225.0",
+      "jsr:@std/assert@^1.0.3": "jsr:@std/assert@1.0.3",
+      "jsr:@std/expect": "jsr:@std/expect@1.0.1",
+      "jsr:@std/internal@^1.0.2": "jsr:@std/internal@1.0.2",
+      "jsr:@std/path": "jsr:@std/path@1.0.3",
+      "jsr:@std/testing": "jsr:@std/testing@1.0.1",
       "npm:chai": "npm:chai@5.1.1",
       "npm:commander": "npm:commander@11.1.0"
     },
@@ -12,14 +15,36 @@
       "@std/assert@0.225.3": {
         "integrity": "b3c2847aecf6955b50644cdb9cf072004ea3d1998dd7579fc0acb99dbb23bd4f"
       },
+      "@std/assert@1.0.3": {
+        "integrity": "b0d03ce1ced880df67132eea140623010d415848df66f6aa5df76507ca7c26d8",
+        "dependencies": [
+          "jsr:@std/internal@^1.0.2"
+        ]
+      },
+      "@std/expect@1.0.1": {
+        "integrity": "44075d9c2cb701ddfc4d5a260da2fb26ba3cfd94c45d3a0359f63cabbf85a058",
+        "dependencies": [
+          "jsr:@std/assert@^1.0.3",
+          "jsr:@std/internal@^1.0.2"
+        ]
+      },
+      "@std/internal@1.0.2": {
+        "integrity": "f4cabe2021352e8bfc24e6569700df87bf070914fc38d4b23eddd20108ac4495"
+      },
       "@std/path@0.225.1": {
         "integrity": "8c3220635a73730eb51fe43de9e10b79e2724a5bb8638b9355d35ae012fd9429",
         "dependencies": [
           "jsr:@std/assert@^0.225.2"
         ]
       },
+      "@std/path@1.0.3": {
+        "integrity": "cd89d014ce7eb3742f2147b990f6753ee51d95276bfc211bc50c860c1bc7df6f"
+      },
       "@std/testing@0.225.0": {
         "integrity": "53ca3c47eb121acabda633fd50699c4b33da6a7ce3e5bb34d7277d15df5f0a6e"
+      },
+      "@std/testing@1.0.1": {
+        "integrity": "9c25841137ee818933e1722091bb9ed5fdc251c35e84c97979a52196bdb6c5c3"
       }
     },
     "npm": {

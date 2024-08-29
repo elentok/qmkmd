@@ -1,5 +1,5 @@
 import { describe, it } from "jsr:@std/testing/bdd"
-import { expect } from "npm:chai"
+import { expect } from "jsr:@std/expect"
 import { findBlocks } from "./blocks.ts"
 
 const lines = [
@@ -19,7 +19,7 @@ const lines = [
 
 describe(findBlocks.name, () => {
   it("identifies the blocks", () => {
-    expect(findBlocks(lines)).to.eql([
+    expect(findBlocks(lines)).toEqual([
       {
         name: "structure",
         lines: ["hello", "world"],
