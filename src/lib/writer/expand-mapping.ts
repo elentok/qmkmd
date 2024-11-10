@@ -80,6 +80,8 @@ const simpleMappings = new Map<string, string>(
     ["^", "KC_CIRC"],
     ["&", "KC_AMPR"],
     ["*", "KC_ASTR"],
+    ["copy", "KC_COPY"],
+    ["paste", "KC_PSTE"],
     ["boot", "QK_BOOT"],
     ["play", "KC_MPLY"],
     ["vol+", "KC_VOLU"],
