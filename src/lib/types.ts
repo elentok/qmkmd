@@ -47,9 +47,9 @@ export class LayoutError extends Error {
 
 export class LayerError extends LayoutError {
   constructor(
-    public msg: string,
+    public override msg: string,
     public layer: Layer,
-    public lineNr?: number,
+    public override lineNr?: number,
     public row?: number,
     public col?: number,
   ) {
