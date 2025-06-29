@@ -28,9 +28,10 @@ export function findBlocks(lines: string[]): Block[] {
   for (const line of lines) {
     lineNr++
     if (block == null) {
-      if (/^```(aliases|options|combos|structure|layer:)/.test(line)) {
+      // you can add "sh " prefix to the code block to enable syntax highlighting in the editor
+      if (/^```(sh )?(aliases|options|combos|structure|layer:)/.test(line)) {
         block = {
-          name: line.substring(3).trim(),
+          name: line.replace(/^```(sh )?/, "").trim(),
           lines: [],
           startLineNr: lineNr + 1,
         }
