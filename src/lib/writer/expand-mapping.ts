@@ -44,6 +44,7 @@ function isValidMod(text: string): boolean {
 const simpleMappings = new Map<string, string>(
   [
     ["'", "KC_QUOT"],
+    ["quot", "KC_QUOT"],
     ['"', "KC_DQUO"],
     [",", "KC_COMM"],
     [".", "KC_DOT"],
