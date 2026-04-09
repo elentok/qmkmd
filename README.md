@@ -67,15 +67,17 @@ them yet).
 
 ## Installation
 
-For now the easiest way to install it is to clone the repo and add the `bin`
-subdirectory to your path, e.g.
+Install the Go CLI with:
 
 ```sh
-git clone https://github.com/elentok/qmkmd ~/.qmkmd
-echo 'PATH=$PATH:~/.qmkmd' >> ~/.zshrc
+go install github.com/elentok/qmkmd/cmd/qmkmd@latest
 ```
 
-(change to `.bashrc` if you're using bash)
+Or build it from a local checkout:
+
+```sh
+go build ./cmd/qmkmd
+```
 
 ## Usage
 
@@ -108,7 +110,7 @@ layoutFn = MY_LAYOUT
 To automatically align the layer columns in the layout.md file:
 
 ```sh
-qmkmd format layout.md
+qmkmd format layout.md --write
 ```
 
 If you're using Neovim you can use my [format-on-save][1] plugin to format the
@@ -117,7 +119,7 @@ file whenever you save, e.g.
 ```lua
 local function markdown_kb_layout_formatter()
   if vim.fn.expand("%:t"):match("layout.md") then
-    return formatters.shell({ cmd = { "qmkmd", "format", "%" }, tempfile = "random" })
+    return formatters.shell({ cmd = { "qmkmd", "format", "%", "--write" }, tempfile = "random" })
   end
 end
 

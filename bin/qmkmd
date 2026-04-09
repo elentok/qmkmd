@@ -4,4 +4,4 @@ set -euo pipefail
 
 ROOT="$(dirname "${BASH_SOURCE[0]-$0}")/.."
 
-deno run --allow-read --allow-write "$ROOT/src/cli.ts" "$@"
+go run "$ROOT/cmd/qmkmd" "$@"
