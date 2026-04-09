@@ -1,5 +1,7 @@
 # qmkmd
 
+[![CI](https://github.com/elentok/qmkmd/actions/workflows/ci.yml/badge.svg)](https://github.com/elentok/qmkmd/actions/workflows/ci.yml)
+
 QMK keyboard layouts written in Markdown, see [example](examples/iris.md).
 
 This is a work-in-progress prototype I'm experimenting with to find an easier
