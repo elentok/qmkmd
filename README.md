@@ -79,6 +79,13 @@ Or build it from a local checkout:
 go build .
 ```
 
+Or install it from Homebrew after the first tagged release:
+
+```sh
+brew tap elentok/stuff
+brew install --cask qmkmd
+```
+
 ## Usage
 
 ### Build
