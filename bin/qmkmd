@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
-
-ROOT="$(dirname "${BASH_SOURCE[0]-$0}")/.."
-
-go run "$ROOT/cmd/qmkmd" "$@"

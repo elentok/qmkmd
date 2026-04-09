@@ -157,6 +157,7 @@ func writeUsage(w io.Writer) {
 	fmt.Fprintln(w, "  qmkmd build <input.md> [--output path]")
 	fmt.Fprintln(w, "  qmkmd format <input.md> [--write]")
 	fmt.Fprintln(w, "  qmkmd copy <source.md> <target.md> [--range start-end] [--write]")
+	fmt.Fprintln(w, "")
 }
 
 func reorderArgs(args []string, flags map[string]bool) []string {

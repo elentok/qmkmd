@@ -70,13 +70,13 @@ them yet).
 Install the Go CLI with:
 
 ```sh
-go install github.com/elentok/qmkmd/cmd/qmkmd@latest
+go install github.com/elentok/qmkmd@latest
 ```
 
 Or build it from a local checkout:
 
 ```sh
-go build ./cmd/qmkmd
+go build .
 ```
 
 ## Usage

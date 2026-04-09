@@ -14,7 +14,7 @@ func TestBuildCommand(t *testing.T) {
 	tmpDir := t.TempDir()
 	output := filepath.Join(tmpDir, "generated-layout.h")
 
-	cmd := exec.Command("go", "run", "./cmd/qmkmd", "build", "examples/iris.md", "--output", output)
+	cmd := exec.Command("go", "run", ".", "build", "examples/iris.md", "--output", output)
 	cmd.Dir = repoRoot(t)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -49,7 +49,7 @@ func TestFormatCommandStdout(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cmd := exec.Command("go", "run", "./cmd/qmkmd", "format", input)
+	cmd := exec.Command("go", "run", ".", "format", input)
 	cmd.Dir = repoRoot(t)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -103,7 +103,7 @@ func TestCopyCommandWriteRange(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	writeCmd := exec.Command("go", "run", "./cmd/qmkmd", "copy", source, target, "--range", "2-3", "--write")
+	writeCmd := exec.Command("go", "run", ".", "copy", source, target, "--range", "2-3", "--write")
 	writeCmd.Dir = repoRoot(t)
 	out, err := writeCmd.CombinedOutput()
 	if err != nil {
@@ -121,7 +121,7 @@ func TestCopyCommandWriteRange(t *testing.T) {
 
 func repoRoot(t *testing.T) string {
 	t.Helper()
-	root, err := filepath.Abs(filepath.Join("..", ".."))
+	root, err := filepath.Abs(".")
 	if err != nil {
 		t.Fatal(err)
 	}
