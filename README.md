@@ -89,6 +89,12 @@ To build a markdown file into a header file you can import in keymap.c run:
 qmkmd build layout.md
 ```
 
+Or choose an explicit output path:
+
+```sh
+qmkmd build layout.md --output generated-layout.h
+```
+
 It will create `generated-layout.h` which you can then import into your keymap.c
 using:
 
@@ -107,7 +113,13 @@ layoutFn = MY_LAYOUT
 
 ### Format
 
-To automatically align the layer columns in the layout.md file:
+To preview the formatted markdown on stdout:
+
+```sh
+qmkmd format layout.md
+```
+
+To rewrite the file in place:
 
 ```sh
 qmkmd format layout.md --write
@@ -131,6 +143,20 @@ format_on_save.setup({
     },
   },
 })
+```
+
+### Copy
+
+To preview copied mappings on stdout:
+
+```sh
+qmkmd copy source.md target.md
+```
+
+To rewrite the target file, optionally limited to an inclusive key range:
+
+```sh
+qmkmd copy source.md target.md --range 10-20 --write
 ```
 
 [1]: https://github.com/elentok/format-on-save.nvim
