@@ -168,3 +168,11 @@ To rewrite the target file, optionally limited to an inclusive key range:
 ```sh
 qmkmd copy source.md target.md --range 10-20 --write
 ```
+
+## AI Disclaimer
+
+I wrote this entire project myself with TypeScript in Dec 2023 but on April
+2026 I migrated the whole thing to Go using Codex (see
+[docs/go-migration-plan.md](docs/go-migration-plan.md)).
+
+I wanted it to be faster and easier to install.
