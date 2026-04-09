@@ -132,23 +132,24 @@ To rewrite the file in place:
 qmkmd format layout.md --write
 ```
 
-If you're using Neovim you can use my [format-on-save][1] plugin to format the
-file whenever you save, e.g.
+If you're using Neovim you can setup
+[conform](https://github.com/stevearc/conform.nvim) to format the
+file whenever you save like this:
 
 ```lua
-local function markdown_kb_layout_formatter()
-  if vim.fn.expand("%:t"):match("layout.md") then
-    return formatters.shell({ cmd = { "qmkmd", "format", "%", "--write" }, tempfile = "random" })
-  end
-end
-
-format_on_save.setup({
-  formatter_by_ft = vim.tbl_extend("force", {
-    markdown = {
-      formatters.prettierd,
-      markdown_kb_layout_formatter,
+require("conform").setup({
+  formatters = {
+    qmkmd = {
+      command = "qmkmd",
+      args = { "format", "$FILENAME", "--write" },
+      stdin = false,
+      condition = function(_, ctx) return vim.endswith(ctx.filename, ".layout.md") end,
     },
   },
+
+  formatter_by_ft = {
+    markdown = { "prettierd", "qmkmd" },
+  }
 })
 ```
 
@@ -165,5 +166,3 @@ To rewrite the target file, optionally limited to an inclusive key range:
 ```sh
 qmkmd copy source.md target.md --range 10-20 --write
 ```
-
-[1]: https://github.com/elentok/format-on-save.nvim
