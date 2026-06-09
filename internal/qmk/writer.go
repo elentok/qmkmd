@@ -432,6 +432,8 @@ func buildSimpleMappings() map[string]string {
 		"play":  "KC_MPLY",
 		"vol+":  "KC_VOLU",
 		"vol-":  "KC_VOLD",
+		"no":    "KC_NO",
+		"noop":  "KC_NO",
 		"__":    "_______",
 	}
 	for _, key := range keys {
