@@ -169,6 +169,26 @@ To rewrite the target file, optionally limited to an inclusive key range:
 qmkmd copy source.md target.md --range 10-20 --write
 ```
 
+## Editing with Claude
+
+This repo ships a [Claude Code](https://docs.claude.com/en/docs/claude-code)
+skill under [`skill/`](skill/) that teaches Claude the qmkmd block structure and
+mapping syntax. With it installed, Claude can author and edit `.layout.md` files
+and validate them against the `qmkmd` CLI.
+
+Install it into `~/.claude/skills/qmkmd` with the helper script:
+
+```sh
+# symlink (recommended — picks up repo changes automatically)
+scripts/install-skill.sh symlink
+
+# or copy a snapshot
+scripts/install-skill.sh copy
+```
+
+The skill activates when you edit a `*.layout.md` file or any Markdown file
+containing qmkmd code blocks.
+
 ## AI Disclaimer
 
 I wrote this entire project myself with TypeScript in Dec 2023 but on April
