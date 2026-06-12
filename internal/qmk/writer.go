@@ -379,70 +379,30 @@ func layerFuncMatch(value string) []string {
 	return []string{value[:start], value[start+1 : end]}
 }
 
+// buildSimpleMappings assembles the lookup table from the programmatic ranges
+// (letters, digits, function keys, modifiers) plus the explicit entries in
+// MappingGroups (see mappings_data.go), which is the single source of truth
+// shared with the documentation generator under internal/qmk/gen.
 func buildSimpleMappings() map[string]string {
-	keys := []string{
-		"esc", "tab", "left", "down", "up", "right", "ent", "home", "pgup", "pgdn",
-		"end", "spc", "del", "wbak", "wfwd", "pscr",
-	}
+	values := map[string]string{}
+
 	for _, c := range "abcdefghijklmnopqrstuvwxyz0123456789" {
-		keys = append(keys, string(c))
+		values[string(c)] = "KC_" + strings.ToUpper(string(c))
 	}
 	for i := 1; i < 13; i++ {
-		keys = append(keys, "f"+strconv.Itoa(i))
-	}
-
-	values := map[string]string{
-		"'":     "KC_QUOT",
-		"quot":  "KC_QUOT",
-		"\"":    "KC_DQUO",
-		",":     "KC_COMM",
-		".":     "KC_DOT",
-		"bs":    "KC_BSPC",
-		"`":     "KC_GRV",
-		":":     "KC_COLN",
-		";":     "KC_SCLN",
-		"[":     "KC_LBRC",
-		"]":     "KC_RBRC",
-		"<":     "KC_LABK",
-		">":     "KC_RABK",
-		"{":     "KC_LCBR",
-		"}":     "KC_RCBR",
-		"(":     "KC_LPRN",
-		")":     "KC_RPRN",
-		"~":     "KC_TILD",
-		"=":     "KC_EQL",
-		"-":     "KC_MINS",
-		"+":     "KC_PLUS",
-		"_":     "KC_UNDS",
-		"|":     "KC_PIPE",
-		"/":     "KC_SLSH",
-		"\\":    "KC_BSLS",
-		"?":     "KC_QUES",
-		"!":     "KC_EXLM",
-		"@":     "KC_AT",
-		"#":     "KC_HASH",
-		"$":     "KC_DLR",
-		"%":     "KC_PERC",
-		"^":     "KC_CIRC",
-		"&":     "KC_AMPR",
-		"*":     "KC_ASTR",
-		"copy":  "KC_COPY",
-		"paste": "KC_PSTE",
-		"boot":  "QK_BOOT",
-		"play":  "KC_MPLY",
-		"vol+":  "KC_VOLU",
-		"vol-":  "KC_VOLD",
-		"no":    "KC_NO",
-		"noop":  "KC_NO",
-		"__":    "_______",
-	}
-	for _, key := range keys {
+		key := "f" + strconv.Itoa(i)
 		values[key] = "KC_" + strings.ToUpper(key)
 	}
 	for _, mod := range mods {
 		values["l"+mod] = "KC_L" + strings.ToUpper(mod)
 		values["r"+mod] = "KC_R" + strings.ToUpper(mod)
 	}
+	for _, group := range MappingGroups {
+		for _, entry := range group.Entries {
+			values[entry.Short] = entry.QMK
+		}
+	}
+
 	return values
 }
 

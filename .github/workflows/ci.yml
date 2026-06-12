@@ -26,3 +26,8 @@ jobs:
 
       - name: Build
         run: go build ./...
+
+      - name: Check generated docs are up to date
+        run: |
+          go generate ./...
+          git diff --exit-code

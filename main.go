@@ -1,5 +1,7 @@
 package main
 
+//go:generate go run ./internal/qmk/gen/main.go
+
 import (
 	"errors"
 	"flag"

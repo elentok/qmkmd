@@ -14,9 +14,10 @@ order; the **first** form that matches wins:
 
 If nothing matches, the build fails with "Invalid mapping".
 
-> The grammar lives in `internal/qmk/writer.go` (`ExpandMapping` +
-> `buildSimpleMappings`). When in doubt, `qmkmd build` is the source of truth;
-> this file mirrors the compiler as of its writing and may drift.
+> The grammar lives in `internal/qmk/writer.go` (`ExpandMapping`). The simple-key
+> table in §2 is generated from `internal/qmk/mappings_data.go` via
+> `go generate ./...`; the narrative sections are hand-written. When in doubt,
+> `qmkmd build` is the source of truth.
 
 ---
 
@@ -36,56 +37,97 @@ keycodes qmkmd doesn't have shorthand for.
 
 Bare names expand to a single `KC_*` (or special) keycode.
 
-**Letters & digits:** `a`–`z`, `0`–`9` → `KC_A` … `KC_9`.
+The tables below are generated from the compiler's mapping data — do not edit
+them by hand; run `go generate ./...` after changing `internal/qmk/mappings_data.go`.
 
-**Function keys:** `f1`–`f12` → `KC_F1` … `KC_F12`.
+<!-- BEGIN GENERATED: simple-keys (run `go generate ./...`) -->
 
-**Named keys:**
+**Letters & digits** — `a`–`z`, `0`–`9` → `KC_A` … `KC_9`.
 
-| Shorthand | QMK         | Shorthand | QMK        |
-| --------- | ----------- | --------- | ---------- |
-| `esc`     | `KC_ESC`    | `spc`     | `KC_SPC`   |
-| `tab`     | `KC_TAB`    | `ent`     | `KC_ENT`   |
-| `bs`      | `KC_BSPC`   | `del`     | `KC_DEL`   |
-| `left`    | `KC_LEFT`   | `right`   | `KC_RIGHT` |
-| `up`      | `KC_UP`     | `down`    | `KC_DOWN`  |
-| `home`    | `KC_HOME`   | `end`     | `KC_END`   |
-| `pgup`    | `KC_PGUP`   | `pgdn`    | `KC_PGDN`  |
-| `wbak`    | `KC_WBAK`   | `wfwd`    | `KC_WFWD`  |
-| `pscr`    | `KC_PSCR`   |           |            |
+**Function keys** — `f1`–`f12` → `KC_F1` … `KC_F12`.
 
-**Media / system:**
+**Named keys**
 
-| Shorthand | QMK        | Shorthand | QMK        |
-| --------- | ---------- | --------- | ---------- |
-| `play`    | `KC_MPLY`  | `boot`    | `QK_BOOT`  |
-| `vol+`    | `KC_VOLU`  | `vol-`    | `KC_VOLD`  |
-| `copy`    | `KC_COPY`  | `paste`   | `KC_PSTE`  |
+| Shorthand | QMK |
+| --- | --- |
+| `esc` | `KC_ESC` |
+| `tab` | `KC_TAB` |
+| `bs` | `KC_BSPC` |
+| `del` | `KC_DEL` |
+| `spc` | `KC_SPC` |
+| `ent` | `KC_ENT` |
+| `left` | `KC_LEFT` |
+| `right` | `KC_RIGHT` |
+| `up` | `KC_UP` |
+| `down` | `KC_DOWN` |
+| `home` | `KC_HOME` |
+| `end` | `KC_END` |
+| `pgup` | `KC_PGUP` |
+| `pgdn` | `KC_PGDN` |
+| `wbak` | `KC_WBAK` |
+| `wfwd` | `KC_WFWD` |
+| `pscr` | `KC_PSCR` |
 
-**Modifiers:** `lgui rgui lctl rctl lalt ralt lsft rsft` → `KC_LGUI` … `KC_RSFT`.
+**Media / system**
 
-**Punctuation & symbols:**
+| Shorthand | QMK |
+| --- | --- |
+| `play` | `KC_MPLY` |
+| `boot` | `QK_BOOT` |
+| `vol+` | `KC_VOLU` |
+| `vol-` | `KC_VOLD` |
+| `copy` | `KC_COPY` |
+| `paste` | `KC_PSTE` |
 
-| Sh   | QMK        | Sh   | QMK        | Sh   | QMK        |
-| ---- | ---------- | ---- | ---------- | ---- | ---------- |
-| `'`  | `KC_QUOT`  | `"`  | `KC_DQUO`  | `quot` | `KC_QUOT` |
-| `,`  | `KC_COMM`  | `.`  | `KC_DOT`   | `;`  | `KC_SCLN`  |
-| `:`  | `KC_COLN`  | `` ` `` | `KC_GRV` | `~`  | `KC_TILD`  |
-| `[`  | `KC_LBRC`  | `]`  | `KC_RBRC`  | `{`  | `KC_LCBR`  |
-| `}`  | `KC_RCBR`  | `(`  | `KC_LPRN`  | `)`  | `KC_RPRN`  |
-| `<`  | `KC_LABK`  | `>`  | `KC_RABK`  | `=`  | `KC_EQL`   |
-| `-`  | `KC_MINS`  | `+`  | `KC_PLUS`  | `_`  | `KC_UNDS`  |
-| `\|` | `KC_PIPE`  | `/`  | `KC_SLSH`  | `\`  | `KC_BSLS`  |
-| `?`  | `KC_QUES`  | `!`  | `KC_EXLM`  | `@`  | `KC_AT`    |
-| `#`  | `KC_HASH`  | `$`  | `KC_DLR`   | `%`  | `KC_PERC`  |
-| `^`  | `KC_CIRC`  | `&`  | `KC_AMPR`  | `*`  | `KC_ASTR`  |
+**Modifiers** — `lgui rgui lctl rctl lalt ralt lsft rsft` → `KC_LGUI` … `KC_RSFT`.
 
-**Special:**
+**Punctuation & symbols**
 
-| Shorthand     | QMK        | Meaning                          |
-| ------------- | ---------- | -------------------------------- |
-| `__`          | `_______`  | Transparent / fall through       |
-| `no` / `noop` | `KC_NO`    | Does nothing                     |
+| Shorthand | QMK |
+| --- | --- |
+| `'` | `KC_QUOT` |
+| `quot` | `KC_QUOT` |
+| `"` | `KC_DQUO` |
+| `,` | `KC_COMM` |
+| `.` | `KC_DOT` |
+| `;` | `KC_SCLN` |
+| `:` | `KC_COLN` |
+| `` ` `` | `KC_GRV` |
+| `~` | `KC_TILD` |
+| `[` | `KC_LBRC` |
+| `]` | `KC_RBRC` |
+| `{` | `KC_LCBR` |
+| `}` | `KC_RCBR` |
+| `(` | `KC_LPRN` |
+| `)` | `KC_RPRN` |
+| `<` | `KC_LABK` |
+| `>` | `KC_RABK` |
+| `=` | `KC_EQL` |
+| `-` | `KC_MINS` |
+| `+` | `KC_PLUS` |
+| `_` | `KC_UNDS` |
+| `\|` | `KC_PIPE` |
+| `/` | `KC_SLSH` |
+| `\` | `KC_BSLS` |
+| `?` | `KC_QUES` |
+| `!` | `KC_EXLM` |
+| `@` | `KC_AT` |
+| `#` | `KC_HASH` |
+| `$` | `KC_DLR` |
+| `%` | `KC_PERC` |
+| `^` | `KC_CIRC` |
+| `&` | `KC_AMPR` |
+| `*` | `KC_ASTR` |
+
+**Special**
+
+| Shorthand | QMK | Meaning |
+| --- | --- | --- |
+| `__` | `_______` | Transparent / fall through |
+| `no` | `KC_NO` | Does nothing |
+| `noop` | `KC_NO` | Does nothing |
+
+<!-- END GENERATED: simple-keys -->
 
 ---
 
