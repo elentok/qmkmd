@@ -1,4 +1,6 @@
-# qmkmd - Create QMK Layouts from Markdown
+# QMKmd - Create QMK Layouts from Markdown
+
+![QMKmd Logo](docs/logo.png)
 
 [![CI](https://github.com/elentok/qmkmd/actions/workflows/ci.yml/badge.svg)](https://github.com/elentok/qmkmd/actions/workflows/ci.yml)
 
